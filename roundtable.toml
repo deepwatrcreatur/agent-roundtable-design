@@ -6,6 +6,10 @@ agents = ["codex", "gemini", "claude_ic"]
 max_rounds = 5
 coordinator = "claude_ic"
 issues_enabled = false
+embedded = false
+service_repo = ""
+service_commit_at_start = ""
+retrofit = false
 
 [fork]
 upstream = ""
