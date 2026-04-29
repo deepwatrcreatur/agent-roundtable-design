@@ -1183,3 +1183,120 @@ but the prior should be that they do, absent evidence otherwise.
 
 What structural corrections does this prior suggest, beyond those already
 adopted in Protocol Updates 1-13?
+
+---
+
+### Q33 — Adding DeepSeek as a Roundtable Agent (2026-04-29)
+
+**Context and motivation:**
+
+The owner already has `opencode` installed (currently wired as `opencode-zai`
+via the fnox wrapper in the homelab NixOS flake). DeepSeek's API is considered
+very affordable and the owner is willing to add a subscription. The goal is to
+add DeepSeek as a participating agent in the roundtable protocol — either
+replacing an existing agent or joining as a fourth.
+
+The current agent roster: `:codex` (OpenAI via `codex` CLI), `:gemini` (Google
+via `gemini` CLI), `:claude_ic` (Anthropic via `claude` CLI, also serves as IC).
+
+`opencode` supports multiple LLM providers via its model selector and already
+has fnox-based API key injection. DeepSeek's API is OpenAI-compatible (same
+endpoint structure, base URL `https://api.deepseek.com/v1`).
+
+**Q33.1 — Which DeepSeek model?**
+
+DeepSeek offers two main models relevant to this use case:
+
+- **`deepseek-chat`** (DeepSeek-V3): general-purpose chat and reasoning, very
+  low cost (~$0.07/MTok input), fast responses, strong at structured analysis.
+- **`deepseek-reasoner`** (DeepSeek-R1): extended chain-of-thought reasoning,
+  slightly more expensive, significantly longer output due to thinking tokens,
+  but demonstrably better on complex reasoning tasks.
+
+For the roundtable role (producing structured positions with provenance-tagged
+claims, satisfaction markers, and explicit warrants), which model is more
+appropriate? Is the reasoning depth of R1 worth the latency and token cost,
+or is V3 sufficient for structured deliberation?
+
+**Q33.2 — How to invoke DeepSeek as a CLI agent?**
+
+The roundtable's `RunCliAgent` module dispatches to CLI binaries. Options:
+
+**(a) `opencode` with DeepSeek provider**
+`opencode` accepts a `--model` flag (e.g. `deepseek/deepseek-chat`). Since the
+owner already has opencode installed, this requires only a new `build_command`
+clause in `RunCliAgent` for `:deepseek`. The fnox wrapper injects the DeepSeek
+API key via `DEEPSEEK_API_KEY` or `Z_AI_API_KEY`.
+
+**(b) `llm` CLI (Simon Willison's tool)**
+`llm` is a universal LLM CLI supporting dozens of providers via plugins,
+including DeepSeek. Invocation: `llm -m deepseek-chat "prompt"`. Requires
+adding `llm` + `llm-deepseek` plugin to the NixOS config. Clean separation
+of concerns: `llm` handles auth and provider config; `RunCliAgent` calls it
+uniformly.
+
+**(c) Direct Elixir HTTP call in `RunCliAgent`**
+DeepSeek's API is OpenAI-compatible. `RunCliAgent` could detect `:deepseek`
+and call the API directly via `Req` (item 24 adds `:req` as a dep) instead of
+shelling out. This removes the CLI dependency entirely for DeepSeek.
+
+**(d) Thin shell wrapper script**
+A `deepseek` shell script (added to the NixOS config's `environment.systemPackages`)
+that `curl`s `api.deepseek.com/v1/chat/completions` and returns JSON. Matches
+the existing CLI agent contract exactly; no new Elixir deps.
+
+Which option best fits the existing architecture, the homelab NixOS config
+conventions, and the requirement to be available in both development and
+production?
+
+**Q33.3 — What role does DeepSeek play in the discussion?**
+
+Options:
+
+**(a) Replace `:gemini`**: DeepSeek plays the "independent analyst" role
+currently held by Gemini. The agent roster stays at three; no consensus
+logic changes needed.
+
+**(b) Replace `:codex`**: DeepSeek plays the "API/implementation detail"
+analyst role. Less natural fit — Codex's role is OpenAI-specific framing;
+DeepSeek would bring a different perspective.
+
+**(c) Add as fourth agent `:deepseek`**: The roster expands to four. This
+affects the consensus logic: with four agents, consensus rules need to handle
+the case where one agent marks `[no objection]` while others are `[satisfied]`
+— previously covered, but the IC prompt needs updating.
+
+**(d) Use DeepSeek as a second IC / Challenger**: DeepSeek-R1 specifically
+(with its extended reasoning) as the Challenger role at closure (Protocol
+Update 13). The IC is still Claude; DeepSeek-R1 is called only at the
+closure moment to argue the strongest alternative position.
+
+**Q33.4 — API key management in the homelab**
+
+The homelab uses `agenix` for secret management and `fnox` for API key injection
+into CLI wrappers. A new DeepSeek API key needs:
+- An agenix secret: `deepseek-api-key.age`
+- A fnox wrapper entry (or direct NixOS service env var for the roundtable module)
+- A `DEEPSEEK_API_KEY` environment variable consumed by the chosen CLI tool
+
+Is there anything DeepSeek-specific about key rotation, rate limits, or regional
+availability that affects this design?
+
+**Q33.5 — Output format compatibility**
+
+The roundtable's `extract_text/2` in `Orchestrator` parses agent output for
+`{"result": "..."}`, `{"content": "..."}`, `{"message": "..."}`, or `{"text": "..."}`.
+DeepSeek's raw API returns OpenAI-format JSON (`choices[0].message.content`).
+The chosen CLI tool may reformat this. What output format does each CLI option
+produce, and does `extract_text/2` need updating?
+
+**Constraints for Q33:**
+- The owner already has `opencode` installed; prefer solutions that leverage
+  existing tooling
+- Must fit the NixOS/fnox/agenix key management conventions
+- Must not require changes to the core consensus logic (or changes should be
+  minimal and documented)
+- Brief premise challenge required: *Given that the current three-agent roster
+  has never been run end-to-end, is adding a fourth agent premature? Does the
+  value come from DeepSeek specifically, or from having more independent
+  perspectives in general?*
