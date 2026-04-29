@@ -1,0 +1,12 @@
+schema_version = 1
+
+[discussion]
+title = "Agent Roundtable Orchestrator Design"
+agents = ["codex", "gemini", "claude_ic"]
+max_rounds = 5
+coordinator = "claude_ic"
+issues_enabled = false
+
+[fork]
+upstream = ""
+fork_of_commit = ""
