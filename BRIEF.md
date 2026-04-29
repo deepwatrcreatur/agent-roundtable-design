@@ -192,13 +192,6 @@ platform is clearly better, why?
 
 ### Q5 — Shared State Medium: Filesystem Blackboard vs GitHub Issues (blocking)
 
-> **Note (2026-04-28):** Q23 reopens the core assumption of this question.
-> The original framing assumed discussion and service code live in the same
-> repo. Q23 proposes they are separate repos. Under that model, the
-> concurrent-write problem motivating GitHub Issues (multiple CLI processes
-> writing to the same file simultaneously) does not apply — the orchestrator
-> is a single server-side process. Read Q5 alongside Q23.
-
 The current design uses a markdown file (`ACTIVE_DISCUSSION.md`) committed to
 git as the shared state. This was inherited from the prior blackboard model,
 where it worked well for human-paced discussions. For automated turn-taking it
@@ -566,337 +559,6 @@ Be specific. "Agents should cite sources" is not a recommendation — the IC
 verification protocol already requires quoted content. What new structural
 change would catch the failure mode that the current protocol still misses?
 
----
-
-### Q21 — Voice Entry for Mobile Discussion Prompts
-
-**Context:**
-
-The owner wants to compose roundtable prompts by voice on mobile, specifically
-when injecting questions or triggering rounds from a phone. Typing long,
-structured prompts on a small screen is the current bottleneck. Voice-to-text
-is the natural solution, but the landscape is fragmented.
-
-**Constraints and preferences:**
-- Single user, low volume — likely fewer than 50 voice-to-text requests per day
-- Willing to self-host a local model on existing homelab hardware
-- Also open to paid SaaS if the cost is negligible at this volume
-- Target platforms: iPhone (primary), iPad (secondary)
-- The output will feed into the roundtable app's prompt injection API; accuracy
-  on technical vocabulary (Elixir, OTP, GenServer, roundtable, satisfaction
-  protocol, IC synthesis) matters more than raw WER benchmarks on general speech
-
-**Candidates mentioned by the owner:**
-- **Aqua Voice** — highly rated, real-time transcription overlay; appears to be
-  macOS-only (also iOS?) — confirm platform support, pricing, and whether it
-  integrates with third-party apps or is restricted to its own UI
-- **WhisperFlow** — widely praised; confirm what this refers to (multiple apps
-  use this name), platform support, and whether it exposes a share-sheet or
-  keyboard integration usable from any app
-- **Local Whisper model on homelab** — OpenAI Whisper served via whisper.cpp,
-  faster-whisper, or a similar inference server; the owner already runs inference
-  infrastructure. What server, client library, and iOS integration path makes
-  this practical?
-- **Other paid options** — e.g. Deepgram, AssemblyAI, Rev.ai, Apple Dictation,
-  Google Speech-to-Text. What are the relevant trade-offs at low volume?
-
-**Q21.1 — Platform survey: what actually works on iPhone?**
-
-For each candidate: confirm iOS availability, integration model (keyboard
-extension, share sheet, copy-to-clipboard, API), pricing at <50 requests/day,
-and known limitations for technical vocabulary. Distinguish clearly between
-"runs on macOS only", "runs on iOS", and "has both".
-
-**Q21.2 — Local model path: feasibility and latency**
-
-Describe the architecture for hosting Whisper on homelab and calling it from
-an iPhone app or iOS shortcut. What inference server (whisper.cpp, faster-
-whisper, Parakeet, etc.) offers the best accuracy/latency trade-off for English
-technical speech? What is the realistic round-trip time for a 10-second prompt?
-What iOS client (Shortcuts HTTP action, custom app, third-party app with custom
-endpoint support) makes this usable without a bespoke native app?
-
-**Q21.3 — Technical vocabulary accuracy**
-
-At what model size and quantisation level does Whisper (or a comparable model)
-reliably transcribe Elixir-specific vocabulary: GenServer, OTP, LiveView,
-mix, ExUnit, satisfied-conditional, roundtable? Is fine-tuning or custom
-vocabulary injection practical for a single-user homelab deployment?
-
-**Q21.4 — Recommendation: local vs. hosted, and integration path**
-
-Given the constraints (single user, low volume, homelab available, iPhone
-primary), what is the recommended path? For whichever you recommend:
-- What is the end-to-end user flow from opening the app to the transcribed
-  text appearing in the roundtable prompt injection field?
-- What are the failure modes (no homelab connectivity, model cold start, etc.)
-  and how should they degrade gracefully?
-
----
-
-### Q22 — Discussion Hosting: Should We Look Beyond GitHub Issues?
-
-**Context:**
-
-The current design uses GitHub Issues as the shared state medium for
-roundtable discussions. This was chosen in Q5 for good reasons (parallel
-writes via `gh issue comment`, labels as state, no merge conflicts, issue
-close as natural termination). This question asks whether that choice should
-be revisited or supplemented.
-
-**The owner's primary use-case for sticking with GitHub:**
-
-> "I like GitHub as one goal is for the roundtable discussions to be
-> forkable, such that an interested person can pick a point in discussion,
-> fork on GitHub, and continue their own discussion with their own prompts
-> using their own hosted version of the roundtable service. Or I can give
-> fellow contributors access to the git repo where discussion is taking
-> place and let them add prompts."
-
-This forkability goal is a strong constraint. Any alternative must either
-support it natively or require an explicit migration/export path.
-
-**Candidates mentioned by the owner:**
-
-- **Graphite** — code review tool built on top of GitHub; stacked PR workflows.
-  Assess whether its issue/discussion model offers anything over raw GitHub
-  Issues, or whether it is strictly a PR tool that doesn't touch issue state.
-- **Radicle.xyz** — peer-to-peer, distributed, no central server. Potentially
-  relevant for self-sovereign forkable discussions. Assess: does it have an
-  issues/comments model? What is the current maturity and tooling? Is there a
-  `rad` CLI? How would the roundtable `gh` calls be ported?
-- **GitLawb.com / GitSocial.org** — assess what these actually are (social
-  layers on top of git?), whether they are production-ready, and their issue
-  model.
-- **Dolt** — a MySQL-compatible database with git-style branching, merging, and
-  forking of data. The owner is willing to host it in the homelab. Evaluate as
-  a shared state backend: could roundtable state (issues, comments, labels,
-  satisfaction markers) be modelled as Dolt tables? What are the access control,
-  backup, and fork semantics?
-
-**On backups and S3:**
-
-> "Backups are important and I would want an abstraction for S3 object stores.
-> I already have a subscription to Mega S4 which is S3-compatible, and there
-> are also S3 self-hosting options for homelabbers."
-
-Any backend recommendation must include a backup story. Note that Mega S4 is
-S3-compatible; the owner also has access to S3-compatible self-hosting options
-(MinIO, Garage, Ceph, SeaweedFS etc.) running in the homelab.
-
-**Collaboration and authentication:**
-
-The owner self-hosts **Authentik** in the homelab. Any authentication for
-discussion participants (allowing contributors to inject prompts, fork a
-discussion, comment on issues) should be able to delegate to Authentik via
-OIDC/SAML. GitHub OAuth is already available as an alternative. The app will
-need to model discussion participants, permission levels, and fork provenance.
-
-**Q22.1 — Honest assessment of alternatives**
-
-For Graphite, Radicle, GitLawb, GitSocial: which are actually production-ready
-issue-tracking systems and which are primarily code review or social layers?
-For each that has an issue model, describe: API or CLI access, comment threading,
-label/state support, and how forks of discussions would work.
-
-**Q22.2 — Dolt as a shared state backend**
-
-Could Dolt replace GitHub Issues as the roundtable state store? Design a minimal
-schema: issues table, comments table, labels table, participants table. Describe
-the fork semantics — if a contributor forks the Dolt database, what does that
-mean for discussion continuity? What is the operational cost of running Dolt in
-a homelab vs. using a managed service?
-
-**Q22.3 — S3-compatible backup abstraction**
-
-Propose an abstraction layer for roundtable state backups. The interface should
-work identically against Mega S4, MinIO, Garage, and AWS S3. What Elixir
-library provides this (ex_aws, waffle, or a thinner HTTP client)? What should
-be backed up and at what frequency for a low-volume single-user deployment?
-
-**Q22.4 — Authentik integration for contributor authentication**
-
-The owner runs Authentik. Design the authentication flow for a contributor who
-wants to: (a) join an existing discussion repo and post prompts, (b) fork a
-discussion at a given point and continue it independently. How does Authentik
-OIDC integrate with the roundtable Phoenix app? What claims/scopes are needed?
-How does fork provenance get attached to a forked contributor's identity?
-
-**Q22.5 — Recommendation: stay on GitHub, migrate, or hybrid**
-
-Given the forkability goal, the homelab capabilities, Authentik availability,
-and the operational preferences expressed, what is the recommended architecture?
-Options include:
-(a) Stay on GitHub Issues with an S3 backup sidecar
-(b) GitHub Issues as primary + Dolt as a mirrored/queryable copy
-(c) Dolt as primary with GitHub as a read-only mirror for forkability
-(d) Radicle or another decentralised option as primary
-(e) Something else
-
-For whichever you recommend: describe what new abstractions the codebase needs
-(adapter interface, auth middleware, backup job), and which are work items for
-the next sprint.
-
-
----
-
-### Q23 — Discussion Repos as First-Class Citizens: Architecture and Storage Model
-
-**Context and motivation (2026-04-28):**
-
-The current implementation conflates two things: the *service* (the Elixir app
-that runs the orchestrator) and the *discussion* (the questions, debate, and
-decisions). Both live in `agent-roundtable/`. This coupling prevents the core
-social feature the owner wants: a discussion that is forkable on GitHub,
-selectable as an entry point from the app, shareable with collaborators, and
-optionally private.
-
-The owner's intent:
-
-> "Each roundtable belongs in a GitHub repository that can be entered into the
-> app and selected as entry point for prompts — forkable by people interested
-> in their own follow-up discussions, possible to give people permission to
-> participate, and also the option to make the discussion repo private."
-
-Additionally, the owner notes:
-
-> "There is now an opportunity to revisit the suitability or need to use the
-> GitHub Issues infrastructure as an integral part of our system."
-
-This question addresses both: what should a discussion repo look like, and does
-GitHub Issues remain the right live-discussion medium under this new model?
-
-**The GitHub Issues fork problem:**
-
-When a GitHub repository is forked, Issues are **not copied** to the fork.
-A fork of a discussion repo whose history lives primarily in Issues would
-arrive empty of discussion history. For discussions to be genuinely forkable
-at a point in time, the durable record must be in **committed files**, not
-issues. This fundamentally changes the storage model from the Q5 decision.
-
-**The concurrent-write assumption revisited:**
-
-Q5 chose GitHub Issues partly to avoid merge conflicts from simultaneous
-agent writes. But in the current architecture, agents are invoked sequentially
-by a single server-side orchestrator process — there is no concurrent write
-problem. The orchestrator controls all writes; it can commit files in sequence
-without races.
-
-**Q23.1 — Discussion repo standard structure**
-
-Define the canonical layout for a standalone discussion repository:
-
-```
-<discussion-repo>/
-├── BRIEF.md            # Questions (read by the app)
-├── DECISION.md         # IC decisions (written by the app)
-├── rounds/
-│   ├── round-01.md     # Full IC synthesis committed after each closed round
-│   ├── round-02.md
-│   └── ...
-└── README.md           # Optional: human description of what this discussion is
-```
-
-Assess: is this layout sufficient? Should `BRIEF.md` use frontmatter (YAML/TOML)
-for machine-readable question IDs, status, and agent configuration? Should there
-be a `roundtable.toml` config file in the repo root specifying agents, max rounds,
-and other orchestration parameters — removing those from the service app config?
-
-**Q23.2 — Revisiting GitHub Issues: necessary, optional, or removed?**
-
-Given that:
-- The concurrent-write problem that motivated Issues is resolved by a
-  single-process orchestrator
-- Issues don't fork, so they cannot carry discussion history to a forked repo
-- The file-based approach (`rounds/round-NN.md`) provides a richer, diffs-friendly,
-  git-native archive than issue comment threads
-
-Is there still a role for GitHub Issues in the architecture? Consider:
-
-(a) **Fully file-based:** Discussion lives entirely in committed files. The
-orchestrator reads `BRIEF.md`, writes `rounds/`, commits after each round.
-No Issues. Labels and state live in YAML frontmatter of `BRIEF.md` or
-`DECISION.md`. No `gh` CLI dependency for the discussion layer.
-
-(b) **Issues as optional notification layer only:** Files are the canonical
-store. Issues are optionally opened as lightweight "discussion thread" pointers
-— one issue per question, linking to the relevant round files — to give GitHub
-notification infrastructure and comment threading for human participants.
-The orchestrator does not depend on Issues for its state machine.
-
-(c) **Hybrid (current model evolved):** Issues remain the live-orchestration
-layer during a round; after IC closes a question, the synthesis is committed
-to a `rounds/` file. The repo contains both. Forks inherit the file history
-but not the Issues. Forkers can then run new rounds.
-
-(d) **Something else.**
-
-For each option: describe how the orchestrator reads current state, how it
-writes a round result, what breaks if GitHub is unavailable, and what a fork
-receives.
-
-**Q23.3 — Service app changes for discussion repo adoption**
-
-The app currently takes a local `BRIEF.md` file path as input. Under the new
-model, it needs to accept a GitHub repo slug (`owner/repo`) and work against
-that repo.
-
-Design the `DiscussionRepo` model for the app:
-- How does a user register a discussion repo in the LiveView dashboard?
-- How does the app read `BRIEF.md` — via `gh api` / GitHub REST, or by
-  cloning the repo locally?
-- When the IC closes a question, how does the app commit `DECISION.md` and
-  the round file — via `git` operations, GitHub API (`PUT /repos/:owner/:repo/
-  contents/:path`), or by push from a local working copy?
-- What credentials are required (GitHub token with `contents:write`)?
-- How are multiple discussion repos managed — can the app track several repos
-  simultaneously and let the user switch between them?
-
-**Q23.4 — Forkability mechanics**
-
-Describe the end-to-end fork-and-continue flow:
-
-1. An interested person forks a discussion repo on GitHub
-2. They run their own instance of the roundtable service (or use a shared
-   hosted instance the owner makes available)
-3. They register their fork as a discussion repo in the app
-4. They inject new questions or trigger new rounds on their fork
-5. The fork's round files diverge from the upstream discussion
-
-What does the app need to support this flow? Specifically:
-- Does the app need to track `fork_of` provenance (pointing to the upstream
-  repo and commit)?
-- Should the app allow a fork's new rounds to be submitted as a PR to the
-  upstream discussion repo?
-- How does a collaborator (with `repo:write` access) participate in an
-  existing discussion rather than forking — what is their auth flow?
-
-**Q23.5 — Migration path from current architecture**
-
-The current `agent-roundtable` repo contains both service code and the design
-discussion (BRIEF.md, ACTIVE_DISCUSSION.md, DECISION.md). Propose:
-
-- How to migrate the existing discussion files out of the service repo into a
-  standalone discussion repo
-- Whether the existing GitHub Issues (current discussion threads) can or
-  should be migrated, or simply left as-is while new discussions use the
-  file-based model
-- What existing code modules need the most significant rework: `Roundtable.CLI`,
-  `Roundtable.Orchestrator`, `Roundtable.Actions.Gh` (which currently assumes
-  Issues as the live state medium), and `Roundtable.RoundRun` (currently
-  persists to a local `state/` directory)
-- A prioritised list of work items for the transition
-
-**Constraints for Q23:**
-- The service app itself stays in `agent-roundtable` (or a renamed service repo)
-- Discussion repos must work as ordinary GitHub repos (no special GitHub App
-  or webhook required to read them — a GitHub token with read access is enough)
-- The solution must remain compatible with the owner's homelab deployment
-  (self-hosted service, Authentik for auth, Mega S4 for backups)
-- Brief premise challenge required before closing (per Protocol Update 9):
-  *What if the discussion repo model makes it harder, not easier, for
-  contributors to participate? E.g. friction of finding the right repo, forking
-  vs. collaborating ambiguity, no single canonical discussion URL?*
 
 ---
 
@@ -922,17 +584,14 @@ ingest to orchestrator.
 Telegram, iMessage, WhatsApp, and email each have different characteristics:
 
 - **Telegram**: open API, easy bot creation, no Apple dependency, cross-platform,
-  widely used by self-hosting community. Hermes and Openclaw both support it.
-  Requires Telegram account. Free.
+  widely used by self-hosting community. Requires Telegram account. Free.
 - **iMessage**: native iOS/macOS UX, no app install friction, but requires a Mac
   or jailbreak/workaround for server-side receipt; Apple does not expose an
   official server API.
 - **WhatsApp**: popular globally but the business API has cost and approval
   complexity for personal use.
-- **Email**: universally available; `imaplib` / SMTP bridges are mature; high
-  latency acceptable for async discussion prompts; no app required.
-- **Signal**: privacy-first but the unofficial API (`signal-cli`) requires
-  phone number registration and is not officially sanctioned.
+- **Email**: universally available; IMAP/SMTP bridges are mature; high latency
+  acceptable for async discussion prompts; no app required.
 
 Which channel(s) are worth building for, and what is the recommended first
 implementation given the owner's constraints (iPhone, homelab, single user,
@@ -940,35 +599,16 @@ Authentik OIDC already deployed)?
 
 **Q24.2 — Does a messaging gateway replace the LiveView UI or complement it?**
 
-The Q22/Q23 architecture includes a LiveView discussion management dashboard.
-If a Telegram bot (or email bridge) already handles prompt ingestion and
-notification delivery, what remains for the LiveView UI to do? Consider:
-
-- Discussion repo registration and management
-- Round history and round-file browsing
-- Satisfaction-state visualization
-- Multi-participant coordination (inviting collaborators by GitHub identity)
-
-Is LiveView still the right choice for those remaining concerns, or does the
-messaging gateway reduce the scope enough that a simpler static or server-side
-rendered interface would suffice?
-
 **Q24.3 — Authentication via messaging channel**
 
-Hermes and Openclaw use the messaging identity (Telegram user ID, phone number)
-as the authentication token — only pre-approved identities can inject prompts.
-How does this interact with the GitHub-based auth model described in Q25? Is
-there a clean way to bind a GitHub identity to a Telegram user ID in the
-Authentik user store?
+How does messaging identity interact with the GitHub-based auth model (Q25)?
 
 **Constraints for Q24:**
 - Single owner primary user; occasional collaborators
 - iPhone-first mobile workflow
-- Homelab service with Authentik OIDC already running
-- Must not require Apple infrastructure (no iMessage server dependency)
+- Must not require Apple infrastructure
 - Brief premise challenge required: *Is adding a messaging gateway scope creep
-  that delays the core orchestrator work, given that the native LiveView UI
-  already covers the same use case with better context?*
+  that delays the core orchestrator work?*
 
 ---
 
@@ -976,88 +616,25 @@ Authentik user store?
 
 **Context and motivation:**
 
-Authentication is a first-class concern for the roundtable service because the
-system needs to answer: who is allowed to inject prompts into a discussion, and
-who can read the results? The owner has identified GitHub auth as the preferred
-primary identity provider, for several reasons:
+The owner has identified GitHub auth as the preferred primary identity provider.
+Authentik is already self-hosted in the homelab.
 
-1. Discussion repos live on GitHub — a GitHub identity is already required to
-   fork, read, or collaborate on a repo.
-2. GitHub OAuth is widely understood and low-friction for technically-literate
-   collaborators.
-3. Access control for a discussion can be expressed in terms the owner already
-   uses: "give them `read` or `write` access to the GitHub repo."
-
-The owner also self-hosts Authentik, which is already running in the homelab
-and supporting other services. The question is how GitHub auth, Authentik, and
-the roundtable service fit together.
-
-**Q25.1 — GitHub OAuth as primary identity: what does the service actually need?**
-
-Define the minimal auth flow for the roundtable service:
-
-- Owner (sole administrator) authenticates via GitHub OAuth to the LiveView app
-- Collaborators who have been granted `repo:write` access to a discussion repo
-  can authenticate and inject prompts for that repo
-- The app checks GitHub repo permissions to gate discussion-repo access — no
-  separate permission database required
-
-What GitHub OAuth scopes are needed? (`repo`, `read:user`, `user:email`?) Can
-permission checks be done purely against the GitHub API, or does the service
-need to maintain a local authorization table?
+**Q25.1 — GitHub OAuth as primary identity: minimal auth flow**
 
 **Q25.2 — Where does Authentik fit?**
 
-Authentik is already deployed. Options:
-
-(a) **Authentik as OIDC proxy for GitHub OAuth**: Authentik federates GitHub
-    as a social provider; the roundtable service authenticates against Authentik
-    via OIDC. All auth flows through Authentik, which gives centralized session
-    management, MFA, and user listing without any custom auth code in the app.
-
-(b) **Direct GitHub OAuth in the Elixir app**: The service implements GitHub
-    OAuth directly (`ueberauth_github` or `assent`). Authentik is used for
-    other homelab services but not for roundtable.
-
-(c) **Both**: Authentik as the OIDC broker, with GitHub as the upstream
-    provider. The roundtable Elixir app is an OIDC relying party to Authentik,
-    not directly to GitHub.
-
-Evaluate each option for: implementation complexity, session UX (single sign-on
-across homelab), and what happens when GitHub is unavailable (can the user still
-access the service locally?).
+Options: (a) Authentik as OIDC proxy for GitHub OAuth, (b) direct GitHub OAuth
+in the Elixir app, (c) both — Authentik as broker with GitHub as upstream.
 
 **Q25.3 — Collaborator invite and authorization flow**
 
-A collaborator wants to participate in a discussion repo they have been given
-`write` access to. End-to-end:
-
-1. Owner grants them `repo:write` on the GitHub discussion repo
-2. Collaborator navigates to the roundtable service
-3. They authenticate via GitHub OAuth
-4. The service discovers which discussion repos they have write access to
-5. Those repos appear in their dashboard
-
-What API calls does step 4 require? Does the service need to store a mapping of
-GitHub usernames to registered discussion repos, or can it query GitHub on each
-login to build the list dynamically? What are the rate-limit implications?
-
-**Q25.4 — Messaging gateway identity binding (cross-reference Q24.3)**
-
-If Telegram or email is used as a prompt-injection channel, how is a messaging
-identity (Telegram user ID, email address) bound to a GitHub identity? Is
-Authentik the right place to store this binding (custom attribute on the user
-profile), or should the roundtable service maintain its own identity table?
+**Q25.4 — Messaging gateway identity binding (cross-ref Q24.3)**
 
 **Constraints for Q25:**
 - Must work in homelab with Authentik already deployed
-- GitHub OAuth is the preferred identity provider
-- No paid identity service (Auth0, Okta, etc.)
-- Must support the collaborator model: contributors authenticated by GitHub
-  identity and repo access, not by a manually-maintained user list
+- GitHub OAuth preferred; no paid identity service
 - Brief premise challenge required: *GitHub OAuth tightly couples auth to GitHub
-  availability — if GitHub is down, can the owner access their own homelab
-  service? Is this acceptable for a personal tool?*
+  availability — if GitHub is down, can the owner access their own homelab service?*
 
 ---
 
@@ -1065,88 +642,25 @@ profile), or should the roundtable service maintain its own identity table?
 
 **Context and motivation:**
 
-The service is a Phoenix/LiveView Elixir application with OTP process model,
-ETS state, and periodic GitHub API calls. The owner is willing to self-host in
-the homelab but wants managed hosting options evaluated — specifically fly.io
-and Gigalixir, which are frequently mentioned in the Elixir community, alongside
-more general PaaS options.
+Evaluate fly.io, Gigalixir, general PaaS options, and homelab self-hosting for
+the Phoenix/LiveView/OTP workload.
 
-Key characteristics of this workload:
-- Low traffic: single owner + occasional collaborators
-- Long-running OTP processes (coordinator lease, heartbeat loops)
-- Periodic GitHub API polling (no inbound webhooks required — polling is
-  sufficient)
-- ETS for hot state; JSON files for durable state (or future Postgres)
-- Authentik OIDC for auth (self-hosted, homelab)
-- Mega S4 (S3-compatible) for backups
+**Q26.1 — Fly.io** (free tier, BEAM compatibility, clustering, cold starts)
 
-**Q26.1 — Fly.io**
+**Q26.2 — Gigalixir** (Elixir-native, free tier no sleeping, limitations)
 
-Fly.io is the most-cited Elixir host in the community (Fly was founded by
-former Phoenix core team members; the Phoenix `fly.toml` generator is
-first-class). Evaluate:
+**Q26.3 — General PaaS** (Render, Railway, Vercel — Vercel is poor fit; explain why)
 
-- Free/low-cost tier: Fly's free allowance for a single small VM running 24/7
-- BEAM compatibility: persistent processes, ETS, long-lived connections for
-  LiveView (WebSocket) — does Fly's infrastructure handle this well?
-- Clustering: if a second node is ever needed, does Fly support multi-node
-  BEAM clustering (`libcluster`)?
-- Deployment: `fly deploy` via Docker; GitHub Actions integration
-- Limitations: cold starts (Fly can put free VMs to sleep), egress costs,
-  persistent volume pricing
+**Q26.4 — Homelab self-hosting** (NixOS module or Podman, Authentik integration,
+backup strategy to Mega S4)
 
-**Q26.2 — Gigalixir**
-
-Gigalixir markets itself specifically at Elixir/Phoenix apps. Evaluate:
-
-- Free tier: Gigalixir's free tier includes 1 replica with no sleeping
-- BEAM compatibility: Gigalixir explicitly supports `mix release`, distributed
-  Erlang, and persistent connections
-- Deployment workflow vs. Fly.io
-- Limitations: free tier replica count, database options, region selection
-- Community standing: is Gigalixir still actively maintained and growing, or
-  is it stagnating relative to Fly.io?
-
-**Q26.3 — General PaaS (Render, Railway, Vercel)**
-
-Vercel is primarily a frontend/serverless host and is a poor fit for a
-long-running OTP application — explain why, and whether there are any valid
-use cases (e.g., hosting just a static assets layer). Render and Railway are
-more general:
-
-- Render: Docker-based deployment, free tier with spin-down, persistent disks
-- Railway: similar to Render; developer-friendly but less Elixir-specific
-- Are these competitive with Fly.io/Gigalixir for this workload?
-
-**Q26.4 — Homelab self-hosting**
-
-The owner already runs a homelab with NixOS, Podman, Authentik, and other
-services. Evaluate self-hosting the roundtable service:
-
-- NixOS module or Podman container: which is more appropriate?
-- How does the service reach GitHub API from behind a home network (no special
-  NAT config needed for outbound polling)
-- Authentik OIDC integration is a natural fit — no external auth dependency
-- Backup strategy: ETS snapshots + JSON state files to Mega S4
-- Trade-offs: availability (home internet), maintenance burden, no SLA
-
-**Q26.5 — Recommendation**
-
-Given: single owner, low volume, Elixir/Phoenix/OTP workload, Authentik in
-homelab, preference for low cost, what is the recommended hosting strategy?
-
-Is the right answer "homelab first, with a documented path to Fly.io if you
-want to share the service with collaborators publicly"?
+**Q26.5 — Recommendation:** homelab first with documented path to Fly.io?
 
 **Constraints for Q26:**
-- Free or very low cost (<$10/month) for the primary use case
+- Free or <$10/month
 - Must support long-running OTP processes and LiveView WebSockets
-- Authentik is homelab-only — any externally-hosted deployment needs to handle
-  auth differently (direct GitHub OAuth) or expose Authentik externally (with
-  its own trade-offs)
-- Brief premise challenge required: *Is evaluating multiple hosting options
-  premature given that the service does not yet exist in deployable form? Should
-  the answer simply be "homelab until you need more"?*
+- Brief premise challenge required: *Is evaluating hosting premature given the
+  service does not yet exist in deployable form?*
 
 ---
 
@@ -1154,92 +668,24 @@ want to share the service with collaborators publicly"?
 
 **Context and motivation:**
 
-When a user authenticates to the roundtable service via GitHub, the app needs
-to present them with a list of discussion repos they can interact with. Two
-sub-problems:
+When a user authenticates, how does the app find discussion repos they can
+interact with?
 
-1. **Discovery**: how does the service find GitHub repos that are roundtable
-   discussions, rather than arbitrary code repos?
-2. **Authorization**: how does the service know which of those repos the
-   authenticated user is allowed to interact with?
-
-The owner's intuition: a GitHub topic (like `roundtable-discussion`) applied to
-a discussion repo acts as an opt-in signal that the repo is a managed
-roundtable discussion. The service can then search a user's accessible repos
-filtered by that topic.
-
-**Q27.1 — GitHub topics as the discovery mechanism**
-
-GitHub allows arbitrary topics to be set on any repository. A user or
-organization could add `roundtable-discussion` (or a similar canonical topic)
-to any repo they want the roundtable service to manage.
-
-Evaluate:
-- What GitHub API call returns a user's repos filtered by topic?
-  (`GET /search/repositories?q=topic:roundtable-discussion+user:owner`)
-- Rate limit implications of calling this on each login vs. caching in the
-  service
-- Who controls topic assignment? Only the repo owner can set topics; a
-  collaborator with `write` access cannot. Does this create friction?
-- Alternative: a special file in the repo root (e.g., `roundtable.toml`) as
-  the discovery signal — the service checks for its presence. More reliable
-  than topics (which can be removed), but requires a separate API call per repo.
+**Q27.1 — GitHub topics as discovery mechanism** (`roundtable-discussion` topic)
 
 **Q27.2 — `roundtable.toml` as both config and identity signal**
 
-Q23 proposed `roundtable.toml` in the repo root for machine config (agents,
-max_rounds, coordinator settings, `issues_enabled`). If this file exists, the
-repo is a discussion repo. The service can:
+**Q27.3 — `roundtable.toml` schema** (agents, max_rounds, coordinator,
+issues_enabled, fork metadata)
 
-1. Query the user's repos (paginated `GET /user/repos`)
-2. For each repo, check for `roundtable.toml` existence (`GET /repos/:owner/:repo/
-   contents/roundtable.toml`)
-3. Parse the toml and register the repo in the dashboard
-
-Trade-off: O(N) API calls for N repos. For a user with many repos this is slow.
-Is the topic-based search a better first filter, with `roundtable.toml`
-existence as the confirmation step?
-
-**Q27.3 — `roundtable.toml` schema**
-
-Define the minimal schema for `roundtable.toml`:
-
-```toml
-[discussion]
-title = "Agent Roundtable Orchestrator Design"
-agents = ["codex", "gemini", "claude_ic"]
-max_rounds = 5
-coordinator = "claude_ic"
-issues_enabled = false
-
-[fork]
-upstream = ""          # set by app when a repo is registered as a fork
-fork_of_commit = ""    # commit SHA at which the fork was taken
-```
-
-What other fields are needed? Should `agents` be a list of agent identifiers
-resolvable by the service, or full config maps (with model, CLI flags, etc.)?
-
-**Q27.4 — Dashboard UX for repo management**
-
-In the LiveView dashboard:
-- A user logs in and sees a list of discovered discussion repos
-- They can add a repo by pasting a `owner/repo` slug (for repos not
-  auto-discovered by topic/toml scan)
-- They can register a fork and see its relationship to the upstream
-- They can start a new round on any registered repo they have write access to
-
-What state does the service need to maintain per registered repo? (Likely a
-simple ETS/Postgres table with: gh_slug, local_clone_path, last_synced_at,
-issues_enabled, and per-user access cache.)
+**Q27.4 — Dashboard UX for repo management** (add by slug, register fork, start round)
 
 **Constraints for Q27:**
-- Must work within GitHub API rate limits (5,000 req/hour for authenticated)
-- Discovery must be opt-in (not scanning all public repos)
-- Must not require a GitHub App or webhook — a plain OAuth token is sufficient
+- Must work within GitHub API rate limits
+- Discovery must be opt-in
+- No GitHub App or webhook required
 - Brief premise challenge required: *Does auto-discovery add complexity that
-  a simple "paste your repo URL" flow already solves for a single-owner tool?
-  When does auto-discovery pay off?*
+  "paste your repo URL" already solves for a single-owner tool?*
 
 ---
 
@@ -1247,65 +693,400 @@ issues_enabled, and per-user access cache.)
 
 **Context and motivation:**
 
-SourceForge was briefly mentioned as a GitHub alternative. This question asks
-whether SourceForge, or any other GitHub alternative, warrants serious
-consideration given the architecture decisions already made.
+Assess whether SourceForge or other GitHub alternatives (GitLab, Codeberg,
+Forgejo, Gitea) warrant consideration given the GitHub-centric architecture.
 
-The relevant constraint: the roundtable service is being built around GitHub
-as first-class infrastructure — GitHub OAuth for authentication, GitHub repos
-for discussion storage, `gh` CLI / REST API for read/write operations. Any
-alternative must either offer equivalent APIs or require significant rework of
-those layers.
+**Q28.1 — SourceForge** (current standing, API, reputation)
 
-**Q28.1 — SourceForge**
+**Q28.2 — GitLab, Forgejo, Gitea** — Forgejo has GitHub-compatible REST API;
+could the service work against it with minimal changes?
 
-SourceForge is one of the oldest open-source hosting platforms. Assess its
-current standing:
+**Q28.3 — Is GitHub lock-in a risk worth mitigating now?** (`DiscussionRepoBackend`
+behaviour already provides the abstraction)
 
-- Is SourceForge still actively developed and used for new projects?
-- Does it offer an OAuth-based identity provider comparable to GitHub OAuth?
-- Does it support the Git repo hosting model needed for discussion repos?
-- Is its API comparable to GitHub's REST API in the dimensions the roundtable
-  service depends on?
-- What is its reputation in the current open-source community (2025/2026)?
-
-**Q28.2 — Other GitHub alternatives (GitLab, Codeberg, Forgejo, Gitea)**
-
-The prior discussion (Q22) mentioned Graphite, Radicle, GitLawb, and GitSocial
-but did not fully assess mainstream GitHub alternatives:
-
-- **GitLab**: self-hostable, strong API, offers OAuth. Could serve as a
-  drop-in if the owner wanted to self-host the entire git infrastructure.
-  Trade-off: runs well on homelab hardware? GitLab's memory footprint is large.
-- **Codeberg / Forgejo**: lightweight Gitea fork, open-source, hosted at
-  codeberg.org. Forgejo has a GitHub-compatible API surface. Could the
-  roundtable service work against Forgejo with minimal changes?
-- **Gitea**: similar to Forgejo; self-hostable with low resource requirements.
-
-**Q28.3 — Is GitHub lock-in a risk worth mitigating now?**
-
-The architecture has GitHub as a single dependency for: auth, repo hosting, and
-the discussion storage layer. Evaluate:
-
-- What breaks if GitHub is unavailable (planned maintenance, outage, or account
-  suspension)?
-- Is abstracting behind a `DiscussionRepoBackend` behaviour (with `GitHub` and
-  `Forgejo` implementations) worth the engineering cost at this stage?
-- Given that the owner already uses GitHub for their homelab NixOS config repo
-  and other projects, is the dependency already accepted?
-
-**Q28.4 — Ruling out SourceForge explicitly**
-
-If SourceForge does not offer a compelling advantage over GitHub for the
-specific requirements of this system, state clearly that it is ruled out and
-why, so the question does not resurface in future rounds.
+**Q28.4 — Rule out SourceForge explicitly**
 
 **Constraints for Q28:**
-- GitHub auth is the preferred primary identity provider (Q25)
-- Discussion repos must be on a platform that supports forking (core Q23
-  requirement)
-- Self-hosting the git platform (Gitea/Forgejo) is a valid option only if it
-  does not add significant operational complexity to the homelab
-- Brief premise challenge required: *Given that GitHub is already deeply
-  integrated into the owner's workflow, is evaluating alternatives a
-  distraction? Under what circumstances would switching actually be worth it?*
+- GitHub auth is preferred primary identity provider (Q25)
+- Discussion repos must support forking
+- Brief premise challenge required: *Given GitHub is already deeply integrated,
+  is evaluating alternatives a distraction?*
+
+---
+
+### Q29 — Discussion Repo Co-evolution: Embedded vs. Standalone (2026-04-29)
+
+**Context and motivation:**
+
+The current architecture places discussion repos as standalone GitHub
+repositories — separate from any service repo being designed. The owner has
+raised the possibility that separating the design discussion from the service
+repo may be a mistake. When there is an active development project, the
+connection between design intent and implementation should be easy to trace.
+
+Additionally, the owner wants to revisit older projects retroactively — adding
+a discussion folder that re-examines past design decisions. This suggests the
+model needs to support both:
+
+- **Greenfield**: start a new service repo; attach a discussion folder before
+  or alongside development
+- **Retrofit**: take an existing service repo with no prior discussion and add
+  one, linking it to the current codebase state
+
+**Q29.1 — Embedded model: `docs/discussion/` inside the service repo**
+
+Instead of a standalone discussion repo, the roundtable material lives in a
+subfolder of the service repo:
+
+```
+my-service/
+  docs/
+    discussion/
+      BRIEF.md
+      DECISION.md
+      roundtable.toml
+      rounds/
+        round-00-opening.md
+        ...
+  lib/
+  ...
+```
+
+Advantages:
+- Design and implementation evolve together; git history links them
+- A single fork of the service repo gives contributors both the code and the
+  discussion history
+- No separate repo to register in the roundtable dashboard
+
+Disadvantages:
+- Discussion content mixed with code content in PRs and blame history
+- Permission scoping is harder: a discussion contributor needs at least `read`
+  access to the code
+- A service repo may have many contributors who should not have write access
+  to the discussion (or vice versa)
+
+Is the embedded model always, sometimes, or never preferable? What is the
+decision rule?
+
+**Q29.2 — Standalone discussion repo with explicit link**
+
+The current architecture. The discussion repo is `owner/my-service-design`
+and the `roundtable.toml` could carry a `service_repo` field pointing at the
+implementation repo:
+
+```toml
+[discussion]
+service_repo = "owner/my-service"
+service_commit_at_start = "abc123"
+```
+
+Advantages:
+- Clean separation of concerns; different permission models
+- The discussion repo can be public even if the service repo is private
+- Forkability is preserved (Q23): forks of the discussion don't inherit code
+
+Disadvantages:
+- Discoverability: finding a service repo's discussion requires knowing the
+  `owner/my-service-design` convention, or using GitHub topics
+- Two repos to keep track of; cross-references in issues/PRs need explicit links
+
+**Q29.3 — Retrofit model: adding discussion to an existing project**
+
+When the service already exists and has accumulated design decisions never
+formally recorded:
+
+- Should a retroactive discussion reconstruct past decisions (recording what
+  was decided and why), or open new questions about the current design?
+- How does `rounds/` work for a project where "round 0" is the current
+  production state, not a blank design slate?
+- What conventions help future readers understand that round 0 is a retrofit,
+  not a greenfield opening?
+
+**Q29.4 — Cross-linking convention**
+
+Whether embedded or standalone, define the convention for cross-referencing
+the discussion from the service repo and vice versa:
+
+- A `DISCUSSION.md` or `DISCUSSION_REPO.md` in the service root that links
+  to the discussion repo (standalone model)
+- A `README` badge or link in the standalone discussion repo pointing at the
+  service
+- GitHub repo description, topics, and `homepage` URL as discoverability aids
+
+**Constraints for Q29:**
+- Must support both greenfield and retrofit use cases
+- Must not force all discussion contributors to have code write access
+- Brief premise challenge required: *Is the embedded model actually simpler
+  in practice for a solo developer, or does it create friction (e.g., every
+  code PR now changes docs) that the standalone model avoids?*
+
+---
+
+### Q30 — GitHub Collaborator Permission Scoping for Discussions (2026-04-29)
+
+**Context and motivation:**
+
+The owner raised the question of whether GitHub collaborator permissions can
+be scoped so that a contributor can participate in a discussion (comment on
+issues, fork and read the discussion repo) without being able to modify service
+code. This is relevant for both models in Q29:
+
+- In the standalone model, the discussion repo can be set to `public` or have
+  its own collaborator list, entirely independent of the service repo
+- In the embedded model, discussion contributions require at least `read` access
+  to the service repo, which may be acceptable or may not be
+
+**Q30.1 — GitHub repo-level permission scoping**
+
+GitHub's permission levels for collaborators on a single repo are:
+`read`, `triage`, `write`, `maintain`, `admin`. There is no "comment only" or
+"fork only" role; `read` access allows forking (of public repos anyone can fork
+anyway) and commenting on issues/PRs.
+
+For the standalone discussion repo:
+- **Public repo**: anyone can read, fork, and open issues. Write access still
+  required to push commits (e.g., contribute a round file)
+- **Private repo with `read` collaborator**: can read, fork-to-their-own-account,
+  and comment on issues/PRs. Cannot push to the main repo.
+- **Private repo with `write` collaborator**: can also push branches and make PRs
+
+Is `read` access on a standalone private discussion repo sufficient for the
+"discussion contributor" role? Can they submit round contributions as PRs from
+their fork?
+
+**Q30.2 — GitHub Organizations as a scoping mechanism**
+
+GitHub Organizations allow teams with different permissions on different repos.
+An organization could have:
+- `discussion-contributors` team: `write` on discussion repos, no access to
+  service repos
+- `developers` team: `write` on service repos, `read` on discussion repos
+- `owners`: `admin` on all
+
+Is setting up a GitHub Organization worth the overhead for a solo project with
+occasional collaborators?
+
+**Q30.3 — What "discussion-only" contributors actually need**
+
+For the roundtable workflow, a discussion contributor needs to:
+
+1. Read the current `BRIEF.md` and round files
+2. Write their response (commit a round file, or inject via the LiveView app)
+3. See the accumulated `DECISION.md`
+
+If contributions are made via the roundtable service (LiveView prompt injection
+or Telegram bot), they do not need GitHub write access at all — the service acts
+as the authenticated write principal. If contributions are made via Git (clone,
+write, PR), they need `write` access (or fork + PR).
+
+Recommendation: is the "inject via service" model sufficient for
+discussion-only contributors, making GitHub permission complexity moot?
+
+**Q30.4 — GitHub Discussions vs. Issues vs. round files**
+
+GitHub has a native "Discussions" feature (separate from Issues) which allows
+threaded conversations without requiring write access to the repo. Would using
+GitHub Discussions as the round medium (instead of committed files or Issues)
+better serve the permission model?
+
+Trade-offs vs. committed round files:
+- GitHub Discussions: anyone can participate (no write access needed), native
+  threaded UX, searchable, but content is not in the git history and cannot be
+  forked
+- Committed round files: full git history, forkable, diff-able, but require
+  write access to contribute directly
+
+**Constraints for Q30:**
+- Must support single owner + occasional external collaborators
+- Collaborators should not be able to modify service code unless explicitly
+  granted write access
+- Must remain simple: no GitHub Apps, no custom permission infrastructure
+- Brief premise challenge required: *If all discussion contributions are made
+  via the roundtable service (not direct git commits), does the GitHub
+  permission question largely answer itself?*
+
+---
+
+### Q31 — Homelab Infrastructure and Hosting Revisit (2026-04-29)
+
+**Context and motivation:**
+
+The owner has provided additional homelab context that was not available during
+Q26. The homelab has:
+
+- **Domain**: `deepwatercreature.com` (active, publicly routable)
+- **Configuration**: all machines defined in a unified `unified-nix-configuration`
+  NixOS flake (one repo, all hosts)
+- **Firewall/reverse proxy**: a machine named `router` running Caddy, which
+  provides TLS termination and reverse proxying for all homelab services
+- **Existing services**: Authentik (OIDC), Podman for containers, Attic
+  (Nix binary cache), and others
+
+This changes the Q26 analysis: homelab hosting is not "bare metal with manual
+setup" but "NixOS module + Caddy virtual host + a line in the unified flake."
+
+**Q31.1 — NixOS module for the roundtable service**
+
+What would a minimal NixOS module for the roundtable service look like in the
+unified-nix-configuration flake?
+
+- Systemd unit wrapping `mix run` or a compiled release
+- Environment variables for GitHub token, secret key base
+- Firewall/Caddy config: a virtual host at
+  `roundtable.deepwatercreature.com` routing to the Phoenix listener port
+- Authentik OIDC integration: Caddy or Phoenix handles the OIDC redirect
+
+Estimate the number of lines of NixOS config to stand up a new service vs. the
+`fly deploy` equivalent.
+
+**Q31.2 — Caddy as the TLS/proxy layer**
+
+Caddy's automatic HTTPS (Let's Encrypt) means TLS is trivially handled for any
+new service added to the router. Evaluate:
+
+- How does Caddy's `reverse_proxy` directive route to a Phoenix LiveView app
+  with WebSocket connections (needed for LiveView)?
+- Is there anything Phoenix/OTP-specific that Caddy handles differently from
+  Nginx?
+- Does Caddy support the headers Phoenix needs for WebSocket upgrades and
+  remote IP detection?
+
+**Q31.3 — Deployment workflow in a NixOS flake**
+
+The unified-nix-configuration flake means deployment is:
+
+```bash
+nixos-rebuild switch --flake .#workstation
+# or for the server hosting the service:
+nixos-rebuild switch --flake .#homeserver
+```
+
+Compare this to `fly deploy` (Docker build + push + VM restart):
+
+- NixOS rebuild: atomic, declarative, rollback via `nixos-rebuild --rollback`
+  or boot entry. No Docker build step. Nix binary cache (Attic) means fast
+  deploys after the first build.
+- Fly.io: push-based, Docker-based, further from the owner's existing workflow.
+
+Is the NixOS deployment workflow already familiar enough that Fly.io's "easier
+deploy story" is not actually easier for this owner?
+
+**Q31.4 — Updated Q26 recommendation given homelab context**
+
+Given the additional infrastructure information, is the Q26 recommendation
+("homelab first, Fly.io as documented fallback") still correct? Does the
+presence of Caddy, a public domain, and a unified NixOS flake make homelab
+hosting more clearly the right first-deploy target?
+
+What are the remaining risks of homelab hosting that Fly.io avoids? (Home
+internet reliability, hardware failure, no managed scaling.)
+
+**Constraints for Q31:**
+- Homelab machines run NixOS and are configured via the unified-nix-configuration flake
+- Caddy handles TLS and reverse proxying at `router`
+- `deepwatercreature.com` is publicly routable
+- Brief premise challenge required: *Given that the roundtable service is primarily
+  a personal tool for one owner, does it need to be publicly reachable at all?
+  Could it run as a local-only service (no public domain, LAN access only)?*
+
+---
+
+### Q32 — Protocol Self-Assessment: Structural Flaws and Discourse Literature (2026-04-29)
+
+**Context and motivation:**
+
+The roundtable protocol has now completed 16 rounds and adopted 12 protocol
+updates. It has incorporated ideas from epistemology (Q20), organizational
+decision theory (Q15), and procedural design (Q1-Q5). But accumulated
+protocol updates may have created local patches that obscure deeper structural
+issues. Before continuing to build implementation on top of the protocol, it
+is worth asking whether the protocol itself has fundamental flaws that will
+surface under real usage.
+
+Additionally, the literature on productive discourse, structured argumentation,
+and group epistemics is rich — Delphi method, Structured Analytic Techniques
+(ODNI/CIA), argumentation theory (Toulmin, Walton), deliberative democracy
+theory (Habermas, Fishkin), and formal debate formats. The protocol has not
+explicitly engaged with most of this literature.
+
+**Q32.1 — Retrospective: what are the biggest structural flaws in the current protocol?**
+
+Review the protocol as documented across Protocol Updates 1-12 and identify
+the top 2-3 structural weaknesses — not surface issues (those have been
+patched) but systemic problems that the current patch history does not address.
+
+Consider:
+- **Roles**: Are the three roles (Codex, Gemini, IC) well-defined? Is the IC
+  role over-loaded (it is simultaneously a deliberator, a synthesizer, and a
+  closer)? Does the role structure create systematic bias?
+- **Round structure**: Is the round model (all agents speak once → IC
+  synthesizes) appropriate for all question types, or does it fail for
+  questions requiring rapid back-and-forth iteration?
+- **Satisfaction markers**: The `[satisfied]`/`[satisfied-conditional]`/
+  `[needs more evidence]` taxonomy is binary in one important respect — it does
+  not distinguish between "I have no further evidence to add" and "I actively
+  disagree but am outvoted." Does this create false consensus?
+- **Question granularity**: The BRIEF.md questions vary from highly specific
+  (Q28: SourceForge assessment) to very open (Q20: epistemology of AI agents).
+  Does the same round structure serve both question types well?
+- **IC closure authority**: The IC has unilateral authority to close a question.
+  Is this appropriate, or does it create a structural asymmetry where the IC's
+  biases systematically shape outcomes?
+
+**Q32.2 — What the protocol does well (to preserve)**
+
+Before recommending changes, identify 2-3 things the protocol does that are
+genuinely good and should be preserved — not the obvious things (it iterates,
+it uses multiple agents) but subtler properties that are worth naming explicitly.
+
+**Q32.3 — Discourse literature: what has not been incorporated?**
+
+Survey the following and assess whether each offers something the current
+protocol lacks:
+
+- **Delphi method**: structured expert elicitation via anonymous iterated
+  questionnaire with feedback. Key insight: anonymity reduces anchoring and
+  social pressure. Does our protocol have an anchoring problem (agents see
+  each other's positions in the same round before responding)?
+- **Toulmin argumentation model**: every claim has a Claim, Data, Warrant,
+  Backing, Qualifier, and Rebuttal. Does the protocol capture warrant and
+  backing, or does it collapse to "I assert X [satisfied]"?
+- **Structured Analytic Techniques (SATs)**: ODNI techniques like Analysis of
+  Competing Hypotheses (ACH), Red Team/Devil's Advocate, and Key Assumptions
+  Check. The Protocol Update 9 disconfirmation pass is a weak form of ACH —
+  is it sufficient?
+- **Deliberative polling (Fishkin)**: participants deliberate with balanced
+  briefing materials before forming opinions. Analogy: the BRIEF.md is the
+  briefing material, but it is written by one party (the owner) — is this a
+  bias source?
+- **Habermasian ideal speech situation**: discourse is valid when participants
+  have equal standing, no coercion, and are oriented toward mutual understanding
+  rather than strategic goals. How well does the roundtable protocol approximate
+  ideal speech conditions? What violates those conditions most severely?
+
+**Q32.4 — Concrete protocol changes recommended**
+
+Given Q32.1-Q32.3, propose at most three concrete structural changes to the
+protocol. Distinguish:
+
+- Changes that are protocol-only (can be adopted immediately, no code changes)
+- Changes that require code support (e.g., a new round structure, new markers)
+- Changes that require external resources (e.g., curated BRIEF.md templates)
+
+For each proposed change, state:
+1. Which structural flaw it addresses
+2. What discourse literature it draws on
+3. What it costs (complexity, latency, round length)
+4. What would indicate it is working vs. not working
+
+**Constraints for Q32:**
+- Bias toward protocol simplicity: a good protocol should be teachable in one
+  page. Changes that add cognitive overhead for marginal epistemic gain should
+  be rejected.
+- The protocol must remain operable with LLM agents that have finite context
+  windows. Proposals requiring agents to read the full 16-round ACTIVE_DISCUSSION.md
+  as context are not feasible at scale.
+- Brief premise challenge required: *Is the protocol already good enough for
+  the actual use case (one owner, personal projects, LLM agents)? Is investing
+  in further protocol sophistication premature given that it has never been
+  run end-to-end with real LLM agents?*
