@@ -688,3 +688,38 @@ if anchoring is empirically present in first real agent run.
 - ODNI SAT/ACH → Challenger role at closure (deferred)
 - Fishkin deliberative polling → "missing perspectives" IC prompt (future work item)
 - Habermas ideal speech → typed provenance already addresses sincerity claim
+
+### Q32 Addendum — Organizational Behaviour Literature (Round 17, 2026-04-29)
+
+**Key finding:** LLMs inherit human group dynamics through training on group
+outputs (committee reports, meeting summaries, consensus documents) — not just
+individual writing. The sycophancy literature provides direct empirical support.
+Structural corrections motivated on LLM-specific grounds.
+
+**Adopted (Protocol Update 13 Addendum, all protocol-only):**
+
+**IC mindguard check**
+IC synthesis opens by quoting or closely paraphrasing the strongest dissenting
+position. If no dissent: "No dissenting position recorded in this round."
+Prevents silent absorption of minority views. *Source: Janis (1972) groupthink.*
+
+**Double-loop framing check at question round 1**
+IC prompt at first round of each question: *"What framings would lead to
+different sub-questions than those in the BRIEF?"* Structural (not
+agent-triggered) double-loop check against motivated BRIEF framing.
+*Source: Argyris (1990) skilled incompetence + defensive routines.*
+
+**Unique contribution prompt appendix**
+Agent prompts end: *"Include at least one consideration not already raised
+this round, or explicitly state you cannot identify one."*
+Targets information sampling bias; "no unique contribution" is a useful
+low-information-entropy signal. *Source: Stasser & Titus (1985).*
+
+**Blind first sub-turn: re-prioritised**
+Moved from "deferred" to "implement and evaluate at first real agent run."
+Procedural context-conditioning (LLM-specific) is sufficient justification
+independent of social anchoring. *Source: Delbecq & Van de Ven (1971) NGT.*
+
+**Unchanged:** Challenger role at closure (Mason & Mitroff 1981 devil's advocacy
+confirmed as correct scope — per-turn devil's advocacy would produce dialectical
+inquiry, which is less effective for non-adversarial settings).
