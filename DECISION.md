@@ -723,3 +723,47 @@ independent of social anchoring. *Source: Delbecq & Van de Ven (1971) NGT.*
 **Unchanged:** Challenger role at closure (Mason & Mitroff 1981 devil's advocacy
 confirmed as correct scope — per-turn devil's advocacy would produce dialectical
 inquiry, which is less effective for non-adversarial settings).
+
+---
+
+## Q33 — Adding DeepSeek as a Roundtable Agent (Round 18, 2026-04-29)
+
+**Decision:** Add `:deepseek` (DeepSeek-V3) as a **fourth agent** via direct
+Elixir HTTP (`Req`), not via `opencode` CLI. Default roster becomes
+`[:codex, :gemini, :deepseek, :claude_ic]`.
+
+### Model
+
+- Regular agent turns: `deepseek-chat` (V3) — ~$0.0003/turn, fast, structured
+- Challenger role at closure: `deepseek-reasoner` (R1) — activated at first
+  production run; configurable via `:deepseek_model` option
+
+### Invocation
+
+Direct Elixir HTTP in `RunCliAgent`. `run/2` detects `:deepseek` and calls
+`run_deepseek/2` via `Req`. Response text returned as `%{stdout: text}` —
+no `extract_text/2` changes needed. This removes the CLI dependency for
+DeepSeek; works in dev, CI, and production with only `DEEPSEEK_API_KEY` set.
+
+### Role in roster
+
+Fourth agent, speaks before IC. `@agent_roles` description: *"You are DeepSeek,
+an AI agent developed by DeepSeek AI. Bring independent analytical perspective
+from a distinct training distribution. Focus on rigorous reasoning and
+considerations potentially underweighted by agents trained on primarily
+English-language corpora."*
+
+**Noted alternative** (not adopted; revisit after first run): replace `:codex`
+with `:deepseek` for cost efficiency if Codex/DeepSeek position diversity proves low.
+
+### Key management
+
+`DEEPSEEK_API_KEY` env var. Homelab: agenix secret + NixOS module `EnvironmentFile`.
+Dev: `.env` / shell export.
+
+### Protocol Update 14
+
+See ACTIVE_DISCUSSION.md Round 18. Changes to implement (item 27):
+1. `RunCliAgent`: add `:deepseek` to schema + `run_deepseek/2` HTTP handler
+2. `Orchestrator`: add `:deepseek` to `@default_agents` + `@agent_roles`
+3. NixOS module (item 26): add `deepseekApiKeyFile` option
