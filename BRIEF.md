@@ -1090,3 +1090,96 @@ For each proposed change, state:
   the actual use case (one owner, personal projects, LLM agents)? Is investing
   in further protocol sophistication premature given that it has never been
   run end-to-end with real LLM agents?*
+
+**Q32 Addendum — Business School and Organizational Behaviour Research (2026-04-29)**
+
+Round 17 drew primarily on philosophy of science and intelligence-community
+sources. The organizational behaviour and management science literature has a
+parallel body of work focused on human group decision-making that is directly
+relevant — and may be more so for LLM agents, since models trained on
+human-produced text inherit the same dynamics the literature was written to
+diagnose.
+
+Agents should assess the following contributions against the structural flaws
+identified in Q32.1-Q32.3, and propose any protocol adjustments warranted:
+
+**(A) Groupthink (Janis, 1972)**
+
+Janis's analysis of foreign policy fiascos (Bay of Pigs, Pearl Harbor) identifies:
+illusion of unanimity, self-censorship among dissenters, and "mindguards" who
+suppress disconfirming information. The Challenger role (Protocol Update 13,
+deferred) is structurally equivalent to Janis's devil's advocate recommendation.
+
+Question: Does the current protocol have a mindguard equivalent? Could the IC
+synthesis function as a mindguard by framing which contributions are elevated
+into the DECISION.md record?
+
+**(B) Skilled incompetence and double-loop learning (Argyris, 1990)**
+
+Argyris distinguishes single-loop learning (adjust behaviour to correct error)
+from double-loop learning (question the governing variable that produced the
+error). Defensive routines prevent groups from surfacing the second-order
+question. The premise challenge requirement is a weak double-loop mechanism —
+but it is agent-triggered, not structurally enforced.
+
+Question: Is there a double-loop failure mode the premise challenge does not
+catch? Specifically: can the BRIEF.md framing itself be defensive (authored by
+one party with motivated reasoning), and does the current protocol surface this?
+
+**(C) Nominal Group Technique (Delbecq & Van de Ven, 1971)**
+
+NGT is the management science empirical basis for why independent idea
+generation before group discussion produces better outcomes than open group
+discussion from the start. It directly supports the blind first sub-turn
+proposal (Protocol Update 13, deferred): participants generate positions
+silently and independently before positions are shared.
+
+Question: Is there published evidence that the production-blocking and
+evaluation-apprehension effects that motivate NGT apply to LLM agents, or
+are they purely social phenomena that require conscious social pressure?
+If the latter, the blind first sub-turn may be unnecessary for LLMs.
+
+**(D) Dialectical inquiry and devil's advocacy (Mason & Mitroff, 1981)**
+
+Strategic management researchers comparing two structured methods for
+ill-structured problems:
+- **Dialectical inquiry**: build two fully elaborated opposing plans; debate them
+- **Devil's advocacy**: build one plan; assign a critic to demolish it
+
+For non-adversarial settings, devil's advocacy outperforms dialectical inquiry.
+The Challenger role at closure (Protocol Update 13) is their devil's advocacy
+mechanism applied to IC synthesis rather than to full plans.
+
+Question: Should the Challenger role be expanded beyond the closure moment to
+apply throughout the round (i.e., after each agent turn, one other agent is
+assigned a devil's advocate sub-turn)? What is the latency cost?
+
+**(E) Information sampling bias (Stasser & Titus, 1985)**
+
+One of the most replicated findings in group decision research: groups
+systematically over-discuss shared information and under-discuss information
+unique to one member. For LLMs: agents trained on similar corpora will produce
+correlated positions on well-represented topics; minority knowledge (the kind
+that would actually change the outcome) may be systematically suppressed.
+
+The typed provenance markers (`[observed]` vs `[inferred]`) partially address
+this: an `[observed]` claim from one agent that other agents lack is flagged as
+genuinely unique information. But the protocol does not yet reward uniqueness —
+there is no mechanism encouraging agents to contribute non-redundant information.
+
+Question: Should agents be explicitly prompted to report what they know that
+the brief and prior turns have NOT already established? Would a "unique
+contribution" prompt structure reduce information sampling bias?
+
+**Additional constraint for the addendum:**
+
+The LLM-inherits-human-dynamics hypothesis: LLMs are trained on text produced
+by humans operating in the group dynamics the above literature describes. A model
+that has seen thousands of meeting transcripts, decision documents, and
+organizational case studies will have internalized the failure patterns —
+including defensive routines, groupthink markers, and sampling bias. This is
+an empirical question (do LLMs exhibit these patterns in controlled settings?)
+but the prior should be that they do, absent evidence otherwise.
+
+What structural corrections does this prior suggest, beyond those already
+adopted in Protocol Updates 1-13?
