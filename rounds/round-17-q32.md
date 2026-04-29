@@ -302,3 +302,198 @@ are not influenced by seeing each other), Change A is unnecessary.
 2. Explicit warrant for contested inferences: adopted immediately
 3. Challenger role: adopted in principle, activated on first production run
 4. Blind first sub-turn: deferred pending empirical anchoring evidence
+
+---
+
+## Round 17 Addendum — Q32: Organizational Behaviour and Management Science Literature
+
+**IC Addendum Prompt (2026-04-29)**
+
+Five bodies of business school / OB research have been identified as relevant
+to the protocol's structural flaws. Agents assess each against the Q32.1 flaws
+and propose protocol adjustments where warranted. The key empirical question:
+do LLMs inherit human group dynamics because they are trained on human text?
+
+---
+
+### Codex — Q32 Addendum
+
+**On the LLM-inherits-human-dynamics hypothesis:**
+
+`[inferred]` The prior should be strong, not weak. LLMs are not just trained on
+individual human writing — they are trained on *group outputs*: meeting
+summaries, decision memos, committee reports, edited consensus documents. These
+are already the outputs of groupthink, information sampling bias, and defensive
+routines. The model does not just inherit the individual human's reasoning
+patterns; it inherits the social filtering that occurred before the document was
+written. A committee report that suppresses the dissenting view trains the model
+to suppress dissenting views.
+
+`[inferred]` Empirically: there is published evidence that LLMs exhibit
+sycophancy under pressure (Perez et al., Wei et al. `[testimony]`) — the
+model changes its stated position when a user pushes back, even without new
+information. This is the LLM analogue of evaluation apprehension and is directly
+analogous to what Stasser & Titus and Janis describe in human groups. The
+mechanism is different (RLHF reward for user approval vs. social belonging) but
+the observable pattern is the same.
+
+---
+
+**(A) Groupthink / Mindguard**
+
+`[inferred]` Yes, the IC synthesis can function as a mindguard. The IC decides
+which agent contributions are elevated into the DECISION.md permanent record.
+A contribution that is structurally present in the round but framed as a minority
+view may be omitted, softened, or absorbed into the synthesis without attribution.
+This is exactly Janis's "rationalization" symptom: minority positions are not
+confronted, they are absorbed.
+
+**Protocol adjustment proposed:** The IC synthesis must quote the strongest
+*dissenting* position verbatim (or closely paraphrased) before the synthesis,
+not just the convergent positions. If there is no dissent, the IC states: "No
+dissenting position recorded in this round." This is a one-sentence addition to
+the synthesis format.
+
+**(B) Double-loop learning / Argyris**
+
+`[inferred]` The BRIEF.md is authored by one party (the owner) and can encode
+motivated reasoning. The premise challenge partially catches this — but only if
+agents can identify the motivated premise. A BRIEF authored with a strong prior
+will frame the question in a way that makes the prior seem like the neutral
+starting point.
+
+`[inferred]` A double-loop question the premise challenge does not catch:
+*"Is the BRIEF framing this question in a way that makes the desired conclusion
+seem natural while making alternatives seem like edge cases?"* This is harder
+to answer than "what if premise X is false" — it requires the agent to
+reconstruct the authorial intent behind the framing.
+
+**Protocol adjustment proposed:** Add a fixed IC prompt step at the start of
+each question's first round: *"What framings of this question would lead to
+a different set of sub-questions than those in the BRIEF?"* This is a structural
+(not agent-triggered) double-loop check. Cost: one additional IC turn per
+question at round 1.
+
+**(C) Nominal Group Technique / Blind first sub-turn**
+
+`[inferred]` The production-blocking and evaluation-apprehension effects that
+motivate NGT are partly social (requiring conscious awareness of group norms)
+and partly procedural (seeing a prior contribution narrows the generative space).
+For LLMs: the social component (fear of judgment) is absent, but the procedural
+component (context conditioning) is present and arguably stronger. An LLM
+sees prior turns as in-context examples and is pulled toward stylistic and
+substantive consistency with them.
+
+`[observed]` This is observable: if the first agent marks `[needs more evidence]`
+with a specific concern, later agents are more likely to address that concern
+specifically — not because they independently generated it, but because it is
+salient in the context window. This is procedural anchoring, not social
+anchoring. NGT's blind-first-turn mechanism addresses both; for LLMs it is
+the procedural component that matters.
+
+**Revised assessment of blind first sub-turn:** Should not be deferred as a
+low-priority empirical question. The mechanism is well-motivated for LLMs on
+procedural grounds alone. The latency cost (doubles agent turns per round) is
+the real constraint, not the empirical uncertainty.
+
+**(D) Dialectical inquiry vs. devil's advocacy / Mason & Mitroff**
+
+`[inferred]` The finding that devil's advocacy outperforms dialectical inquiry
+for non-adversarial settings suggests the Challenger role should be targeted:
+one critic, one plan, at the moment of closure. Expanding devil's advocacy to
+every agent turn would produce dialectical inquiry, which is less effective and
+much more expensive.
+
+**No additional protocol adjustment proposed beyond Challenger role at closure.**
+
+**(E) Information sampling bias / Stasser & Titus**
+
+`[inferred]` The "unique contribution" prompt structure is worth testing. Current
+agent prompt ends with: "Please respond with your position." A modified ending:
+"Please respond with your position. Explicitly include at least one piece of
+evidence or consideration that has NOT already been raised in the prior
+contributions — if you cannot identify one, state this explicitly."
+
+This is a low-cost format change that directly targets the sampling bias
+mechanism. An agent that states "I have no unique contribution to add" provides
+useful signal — it indicates the information space has been exhausted.
+
+**Protocol adjustment proposed:** Add "unique contribution" prompt appendix.
+Cost: slightly longer turns; measurable if agents regularly report "no unique
+contribution" (which would indicate the question has low information entropy and
+may resolve quickly).
+
+---
+
+**Summary of proposed additions from addendum:**
+
+1. **IC mindguard check** — IC synthesis must quote or paraphrase the strongest
+   dissenting position before synthesis. One sentence. No code change.
+2. **Double-loop framing check** — Fixed IC prompt at question round 1:
+   *"What framings would lead to different sub-questions?"* Protocol-only.
+3. **Unique contribution prompt appendix** — Agent turn prompt ends with:
+   *"Include at least one consideration not already raised, or state you cannot
+   identify one."* Protocol-only, low cost.
+4. **Blind first sub-turn re-prioritised** — Not deferred; motivated on
+   procedural (context conditioning) grounds for LLMs independent of social
+   anchoring. Latency cost is the real constraint; recommend implementing
+   after first real agent run with timing data.
+
+**Q32 addendum: [satisfied]**
+
+---
+
+### Claude IC — Addendum Synthesis
+
+**Disconfirmation pass**: Do LLMs actually exhibit information sampling bias
+analogous to Stasser & Titus? `[inferred]` The claim is well-grounded theoretically
+(context conditioning is a real mechanism) but I should note: the Stasser & Titus
+effect in humans is partly driven by *shared pre-deliberation knowledge* — all
+members knew X before the meeting, so X is discussed more. For LLMs with similar
+training data, the analogous effect is that well-represented topics in training
+data produce more confident, less hedged claims. Topics with sparse training data
+produce more `[inferred]` and `[testimony]` labels. The provenance markers already
+partially surface this. The unique contribution prompt adds explicit structure.
+Disconfirmation sought: is there evidence this prompt actually changes LLM output?
+`[inferred]` Not directly, but the instruction-following literature strongly suggests
+that explicit structural constraints in prompts affect output distribution. I assess
+the unique contribution prompt as low-cost and likely effective.
+
+---
+
+**Protocol Update 13 Addendum — Organizational Behaviour Corrections**
+
+**Adopted immediately (all protocol-only, no code changes):**
+
+**1. IC mindguard check**
+The IC synthesis opens with the strongest dissenting position from the round,
+quoted or closely paraphrased. If there is no dissent, the IC states: "No
+dissenting position recorded in this round." Prevents silent absorption of
+minority views into the synthesis.
+
+**2. Double-loop framing check at round 1**
+At the start of a question's first round, the IC prompt includes: *"What
+framings of this question would lead to a different set of sub-questions than
+those in the BRIEF? The IC will note the most significant alternative framing
+before opening the substantive discussion."*
+
+**3. Unique contribution prompt appendix**
+Agent turn prompts conclude with: *"Explicitly include at least one piece of
+evidence or consideration that has NOT already been raised in this round's
+prior contributions. If you cannot identify one, state this explicitly."*
+
+**4. Blind first sub-turn: re-prioritised to first production run**
+(Moved from "deferred pending empirical evidence" to "implement and evaluate
+at first real agent run." Procedural context-conditioning is sufficient
+theoretical justification; timing data will determine whether the latency
+cost is acceptable.)
+
+**Theoretical basis recorded:**
+- Janis (1972) groupthink → mindguard check + Challenger role
+- Argyris (1990) double-loop learning → framing check at round 1
+- Delbecq & Van de Ven (1971) NGT → blind first sub-turn (re-prioritised)
+- Mason & Mitroff (1981) devil's advocacy → Challenger role at closure (unchanged)
+- Stasser & Titus (1985) information sampling → unique contribution prompt
+- LLM-inherits-human-dynamics: prior is strong (sycophancy evidence, context
+  conditioning mechanism); structural corrections motivated on LLM-specific grounds
+  in addition to human group dynamics grounds
