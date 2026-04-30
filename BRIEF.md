@@ -1300,3 +1300,221 @@ produce, and does `extract_text/2` need updating?
   has never been run end-to-end, is adding a fourth agent premature? Does the
   value come from DeepSeek specifically, or from having more independent
   perspectives in general?*
+
+---
+
+### Q34 — AI Subscription Procurement: DeepSeek, Kimi, MiMo, Qwen, and Chinese AI Models (2026-04-29)
+
+**Context and motivation:**
+
+Round 18 decided to add DeepSeek as a fourth roundtable agent (Protocol Update 14)
+and confirmed the direct Elixir HTTP approach (`Req` to `api.deepseek.com`). What
+was not discussed: *where* to sign up, *which tier* to choose, and whether other
+Chinese AI models merit a subscription for roundtable participation or personal use.
+
+The owner is willing to pay for useful subscriptions and is already familiar with
+API-based AI tooling. The question is which of the available Chinese AI services
+offer genuine incremental value — either as roundtable agents (distinct training
+distribution, different perspectives) or as general-purpose tools — vs. which are
+redundant with models already in use.
+
+**Models under consideration:**
+
+- **DeepSeek** (DeepSeek AI): `deepseek-chat` (V3) and `deepseek-reasoner` (R1).
+  Already decided to add. Q34 focuses on *procurement specifics*.
+- **Kimi** (Moonshot AI): Long-context focused model, up to 1M token context window.
+  Strong at document analysis and long-form synthesis.
+- **Xiaomi MiMo**: Xiaomi's reasoning model optimized for math and code. Very small
+  (7B parameters) but claims competitive reasoning benchmark scores. Open weights.
+- **Qwen** (Alibaba/Tongyi): Qwen2.5 family — Qwen2.5-72B and Qwen2.5-Coder-32B
+  especially strong on code and structured tasks. Available via Alibaba Cloud
+  DashScope API and also as open weights via Ollama/vLLM.
+- **Yi** (01.AI): Yi-Large general-purpose, Yi-Lightning fast/cheap. Bilingual
+  Chinese/English. Less differentiated from the above for English-only tasks.
+- **Doubao** (ByteDance/Volcano Engine): ByteDance's commercial LLM offering.
+  Primarily targeted at Chinese enterprise customers; English API availability
+  variable.
+- **Hunyuan** (Tencent): Available via Tencent Cloud; mixed English capability.
+
+**Q34.1 — DeepSeek API procurement specifics**
+
+The `api.deepseek.com` API is the primary programmatic access point. Evaluate:
+
+- **Sign-up**: `platform.deepseek.com` — what is the account creation flow?
+  Chinese phone number required, or international email sufficient?
+- **Payment**: Does the platform accept international credit cards (Visa/Mastercard)?
+  Are there alternative payment paths (Stripe, PayPal)?
+- **Pricing tiers**: `deepseek-chat` at ~$0.07/MTok input, `deepseek-reasoner`
+  at ~$0.55/MTok. For roundtable use (~50 rounds/day, ~2K tokens/turn, 4 agents),
+  estimate monthly cost at each model tier.
+- **Rate limits**: What are the default rate limits on a new account? Are they
+  sufficient for automated orchestrator use?
+- **Regional availability**: Are there latency or availability concerns for
+  requests from a European homelab? Is there a EU endpoint?
+
+**Q34.2 — Kimi (Moonshot AI) — is the long-context strength useful here?**
+
+Kimi's primary differentiation is context length (128K–1M tokens). Evaluate:
+
+- For roundtable use, how often does context length actually become a constraint?
+  The current `max_tokens: 2048` cap in `RunCliAgent` suggests turns are short.
+- Is there a use case in the roundtable where Kimi's long-context window is
+  genuinely useful vs. the existing agents? (e.g., loading full code repos,
+  reading long BRIEF.md + all prior rounds as context)
+- `platform.moonshot.cn` — same procurement questions: international access,
+  payment method, pricing.
+- Is Kimi meaningfully differentiated from Qwen or DeepSeek for English-language
+  structured analysis, or does it only shine on Chinese-language tasks?
+
+**Q34.3 — Xiaomi MiMo — open weights vs. API**
+
+MiMo is open-weight (Apache 2.0 licensed). The owner's homelab includes an
+inference VM:
+
+- Is running MiMo locally (via Ollama or vLLM on the inference VM) a better
+  option than subscribing to a cloud API for it?
+- The inference VM hardware: what are the VRAM requirements for MiMo-7B? Can the
+  homelab run it at reasonable inference speed for roundtable turn generation?
+- Is MiMo's strength (math/code reasoning) complementary to the existing agent
+  roster, or redundant with DeepSeek-R1?
+- If running locally: what is the setup path on NixOS? (`ollama` is available
+  as a NixOS service.)
+
+**Q34.4 — Qwen (Alibaba DashScope) — strongest open-weight alternative**
+
+Qwen2.5-72B is competitive with GPT-4o on many benchmarks and available as
+open weights. Evaluate:
+
+- **API route**: Alibaba Cloud DashScope (`dashscope.aliyuncs.com`). International
+  account creation and payment (Alipay/international card)?
+- **Open-weights route**: Qwen2.5-72B via Ollama on the inference VM. VRAM
+  requirement is ~40GB for 4-bit quantised — is this feasible on the homelab
+  inference VM?
+- For roundtable structured analysis (English, technical, opinionated), how
+  does Qwen2.5-72B compare to `deepseek-chat` (V3)? Is one clearly better?
+- `Qwen2.5-Coder-32B` is specialised for code tasks — is there a separate
+  roundtable role for it (e.g., the Codex slot)?
+
+**Q34.5 — Recommended subscription set**
+
+Given the analysis in Q34.1–Q34.4:
+
+1. **Which subscriptions should the owner actually sign up for?** Rank by
+   expected incremental value for the roundtable use case, and flag any where
+   the open-weights + homelab route is preferable to a cloud subscription.
+2. **Which models should be added to the roundtable agent roster beyond DeepSeek?**
+   A fourth agent (DeepSeek) has already been decided. A fifth or sixth agent
+   adds latency and cost — what is the marginal value?
+3. **Procurement sequence**: If multiple subscriptions are warranted, what is
+   the recommended order (e.g., DeepSeek first, then Qwen if homelab VRAM is
+   insufficient, Kimi only if long-context use cases emerge)?
+4. **Non-roundtable uses**: Are any of these models useful as personal daily
+   tools (coding assistant, document analysis, brainstorming) that would justify
+   a subscription independent of roundtable use?
+
+**Constraints for Q34:**
+- Owner is in Europe; Chinese-national-only sign-up flows are a blocker
+- Owner's homelab has an inference VM but VRAM ceiling is unknown to agents —
+  assume 16–24GB VRAM unless stated otherwise
+- Bias toward API access over local inference for agents that will run in
+  the roundtable orchestrator (latency and reliability requirements)
+- Brief premise challenge required: *DeepSeek (V3) is already decided and
+  very affordable. Is there a genuine case for adding a second Chinese AI model
+  subscription, or does this optimise for roster diversity at the cost of
+  complexity and spend? What is the actual incremental epistemic contribution
+  of a fifth agent?*
+
+---
+
+### Q35 — Naming the Roundtable: Identity, Intellectual Heritage, and Branding (2026-04-29)
+
+**Context and motivation:**
+
+The project is currently called `agent-roundtable` — a functional description, not
+a name. The owner wants a proper name that reflects the intellectual heritage of the
+project. Three strands of influence are explicitly cited:
+
+1. **John Stuart Mill and rational discourse.** Mill's *On Liberty* (1859) argues
+   that even false opinions have value because they force the holder of the true
+   opinion to understand *why* it is true. Suppression of any opinion is always
+   wrong because it deprives humanity of the opportunity to test its beliefs.
+   The roundtable protocol operationalises this: no agent's position is suppressed;
+   the IC must quote dissent (mindguard check); the `[no objection]` marker
+   distinguishes genuine agreement from exhaustion. Mill's "marketplace of ideas"
+   is the philosophical ancestor of the protocol.
+
+2. **High Modernism and legibility.** James C. Scott's *Seeing Like a State* (1998)
+   describes High Modernist projects as attempts to make complex systems legible
+   and controllable through rational planning, standardisation, and measurement.
+   The roundtable protocol is explicitly High Modernist: it imposes structured
+   formats (satisfaction markers, typed provenance, Toulmin warrants) on what would
+   otherwise be unstructured group conversation. The name should acknowledge this
+   ambition — and perhaps the hubris that Scott warns about.
+
+3. **Contemporary anti-trap discourse.** The protocol incorporates specific
+   structural corrections drawn from organisational behaviour (Janis groupthink,
+   Argyris double-loop, Stasser information sampling bias), intelligence community
+   structured analytic techniques, and philosophy of science. It is designed to
+   avoid the known failure modes of group deliberation. This is a contemporary
+   project, not a nostalgic one.
+
+The owner also frames this as a **test of divergent thinking** — the kind of
+structured creativity exercise that business schools try to engineer. A naming
+exercise is a good test case: it requires lateral thinking, cultural references,
+and aesthetic judgment, not just analytical reasoning. If the agents can only
+produce safe, anodyne suggestions, that reveals a protocol limitation.
+
+**Q35.1 — Name candidates (divergent phase)**
+
+Each agent should propose **3–5 candidate names** for the project. For each name,
+provide:
+- The name itself
+- A one-sentence rationale connecting it to the intellectual heritage above
+- Any risks (confusion with existing projects, unintended connotations, difficulty
+  pronouncing or spelling)
+
+Names should be:
+- **Distinctive** — not generic ("AI Discussion Tool", "AgentChat")
+- **Evocative** — should suggest the intellectual tradition without requiring
+  explanation to someone unfamiliar with it
+- **Usable** — suitable as a CLI command name, GitHub repo name, and conversation
+  reference ("let's run it through [name]")
+- **Not already taken** — agents should flag if they believe a name is already in
+  use by a well-known project
+
+Draw freely from: Mill's works and life, High Modernist projects and their critics,
+the discourse literature (Habermas, Toulmin, Janis, Delphi method), historical
+deliberative assemblies, philosophy of science, or any other source that fits the
+intellectual character of the project.
+
+**Q35.2 — Name evaluation (convergent phase)**
+
+After the divergent phase, evaluate the full set of candidates against these
+criteria:
+
+| Criterion | Weight | Notes |
+|---|---|---|
+| Intellectual fit | High | Does it reflect the Mill / High Modernism / anti-trap heritage? |
+| Distinctiveness | High | Is it unique in the AI tooling space? |
+| CLI usability | Medium | Short enough to type as a command? Works as a repo name? |
+| Pronunciation | Medium | Can it be spoken aloud unambiguously in English? |
+| Aesthetic quality | Medium | Does it sound good? Would the owner enjoy saying it? |
+| Risk of confusion | Low | Similar to existing well-known projects? |
+
+Each agent should rank their top 2–3 from the combined candidate pool and explain
+why.
+
+**Q35.3 — Recommended name**
+
+Propose a single recommended name with a brief (2–3 sentence) justification. If
+no consensus is possible, present the top 2 with the trade-off between them.
+
+**Constraints for Q35:**
+- The name must work as a Nix flake package name (lowercase, hyphens allowed,
+  no spaces)
+- The name must work as a GitHub repo name
+- The name must be suitable as a CLI command (≤12 characters preferred)
+- Brief premise challenge required: *Does this project need a name beyond
+  `roundtable`? The functional name is clear, searchable, and already in use
+  throughout the codebase. What does a "proper" name add that `roundtable` does
+  not already provide?*
