@@ -960,6 +960,32 @@ craft workshop).
 All previous candidates (anneal, fugue, musil, millrace, parallax, etc.)
 superseded by the post-ideological reframing.
 
+### Q35 Addendum 5 — Separation of Good from Flawed (2026-04-30)
+
+Owner direction: the protocol's identity is *discernment* — removing flawed ideas,
+preserving good ones. `thresh` is the right metaphor but needs more character.
+
+**Unanimous recommendation: `winnow`**
+
+First unanimous agent agreement in the entire Q35 discussion (5 addenda, 40+
+candidates). Winnowing is the agricultural step after threshing: grain tossed into
+the air, wind carries away the chaff, valuable grain falls back.
+
+The protocol winnows: ideas are exposed to the wind of structured critique.
+Insubstantial ideas blow away. Robust ideas survive not because of a theory but
+because they are heavier — they withstand exposure.
+
+Properties:
+- 6 characters, poetic heritage (KJV, Milton, Keats), sounds like wind
+- "Winnow the truth" is a recognisable English phrase
+- Post-ideological, pre-industrial, no rationalist baggage
+- No existing AI/tech project namespace conflict
+- CLI: `winnow run` / Repo: `winnow` / Conversation: "winnow it"
+
+Alternatives with more edge:
+- `flail` (5 chars) — the threshing tool; controlled violence
+- `crucible` (8 chars) — testing vessel; maximum drama
+
 ### Pending
 
 Owner approval required. If accepted, rename: repo, flake package, CLI module,
