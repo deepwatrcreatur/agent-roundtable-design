@@ -900,6 +900,35 @@ for exactly this — questions that cannot be closed with genuine `[satisfied]`.
 
 `parallax` and `dissensus` dropped.
 
+### Q35 Addendum 3 — Iterative Refinement Frame (2026-04-30)
+
+**Reframing adopted.** The High Modernist novels (Joyce, Musil, Borges) are
+critiques of rational convergence. The protocol is not claiming convergence —
+it is doing iterative refinement: each round improves on the last, without
+claiming to reach truth. This resolves the tension that plagued every literary
+candidate.
+
+**Revised recommendation: `anneal`**
+
+From metallurgy and computer science: annealing subjects material to heat-cool
+cycles that remove internal stresses and improve structural integrity. Simulated
+annealing approaches an optimum through controlled randomness and iterative
+cooling. The protocol anneals decisions: each round heats (agents challenge),
+cools (IC synthesizes), and relieves internal stresses (disagreements, unexamined
+assumptions). The result is structurally sound, not "true."
+
+Properties: 6 characters, clear pronunciation, distinctive, no existing AI project
+conflict. Both metallurgical and CS meanings are precisely right.
+
+**Revised ranking:**
+1. `anneal` — metallurgical + CS; heat-cool cycles removing stresses
+2. `fugue` — contrapuntal voices; most beautiful name; 5 chars; psychiatric risk
+3. `assay` — testing composition; most precise; 5 chars
+4. `kiln` — controlled firing; shortest (4 chars); slightly craft-coded
+
+Previous candidates (parallax, musil, millrace, oulipo, dissensus) superseded
+by the iterative refinement reframing.
+
 ### Pending
 
 Owner approval required. If accepted, rename: repo, flake package, CLI module,

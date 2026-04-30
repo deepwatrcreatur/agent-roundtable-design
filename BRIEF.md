@@ -1652,6 +1652,59 @@ Agents should:
 For each candidate name, state which icon or tradition it draws from and why
 the connection fits the project's character.
 
+**Q35 Addendum 3 — Iterative Refinement: Beyond Rational Convergence (2026-04-30)**
+
+The owner observes a pattern in the naming discussion: the High Modernist novels
+(Joyce, Musil, Borges) are all *critiques* of rational convergence, not
+celebrations of it. *Ulysses* uses parallax to show that viewpoints do not
+converge. *The Man Without Qualities* shows a rational committee dissolving into
+futility. Borges's Library of Babel shows total knowledge producing total noise.
+
+This is not a coincidence. The great Modernist novels were written in the shadow
+of the failure of Enlightenment rationalism — the period between two world wars,
+when the rational civilisation of the 19th century had visibly collapsed. The
+novels are diagnostic, not prescriptive.
+
+The roundtable protocol is not trying to achieve rational convergence in the
+High Modernist sense. It is doing something more modest and more defensible:
+**iterative refinement**. Each round improves on the last. Satisfaction markers
+track whether refinement has been sufficient, not whether truth has been reached.
+The `[no objection]` marker explicitly acknowledges that some questions cannot
+be resolved — only refined to the point where further refinement has diminishing
+returns.
+
+Iterative refinement is:
+- Less ideologically loaded than "rational convergence" or "marketplace of ideas"
+- More accurate about what the protocol actually does
+- Defensible in the face of the Modernist critique — refinement does not claim
+  to reach truth, only to improve on the previous state
+- Practiced everywhere: scientific peer review, software development (iterative
+  releases), metalwork (annealing, tempering), editing, proof-reading
+
+Agents should look for icons and names from the iterative refinement tradition
+— across crafts, sciences, processes, and cultural practices. The name should
+signal "structured improvement through repeated passes" rather than "rational
+convergence on truth."
+
+Possible domains to explore:
+- **Metallurgy and materials science:** annealing, tempering, refining, assaying,
+  smelting — processes that improve material quality through repeated cycles
+- **Typography and printing:** proof (as in "proof-reading"), galley, forme,
+  impression — iterative stages of refinement from manuscript to published text
+- **Scientific method:** iteration, calibration, titration, distillation —
+  processes that approach a result through successive approximation
+- **Software engineering:** sprint, iteration, lint, rebase — but these are
+  too domain-specific and lack the cultural depth the owner wants
+- **Musical practice:** étude (a study piece for iterative skill development),
+  variation, fugue (a theme developed through structured repetition and
+  transformation)
+- **Craft traditions:** any tradition where the practitioner makes successive
+  passes over the work to improve it
+
+Constraints: the name should be short (≤8 chars for CLI), distinctive, and
+should not carry the ideological baggage of High Modernist convergence claims.
+It should feel like a *process* name, not a *destination* name.
+
 ---
 
 ### Q36 — DeepSeek V4 Pro via Ollama Cloud: Model Upgrade and Access Path (2026-04-29)
