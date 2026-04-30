@@ -929,6 +929,37 @@ conflict. Both metallurgical and CS meanings are precisely right.
 Previous candidates (parallax, musil, millrace, oulipo, dissensus) superseded
 by the iterative refinement reframing.
 
+### Q35 Addendum 4 — Post-Ideological Pragmatism (2026-04-30)
+
+**Further reframing adopted.** The materials science names (anneal, assay, kiln)
+still carry a rationalist residue — an assumed telos. The owner's position:
+structured discourse is *useful*, not *True*. No commitment to any ideology of
+reason. Pragmatic, not programmatic.
+
+**Revised recommendation: `hone`**
+
+From craft: to hone is to refine a blade to working sharpness. Already idiomatic
+for intellectual refinement ("hone an argument," "hone your thinking"). The name
+explains itself without requiring knowledge of any intellectual tradition.
+
+Properties: 4 characters, craft-rooted, post-ideological, no telos, no programme.
+Zero existing AI project conflicts. Works as CLI (`hone run`), repo, flake
+package, and conversation reference ("have you honed this?").
+
+**Alternative: `crit`** — from art school critique culture. Work is presented,
+discussed, revised. Determines whether the work *works*, not whether it is True.
+4 characters. Same post-ideological quality, different register (art school vs
+craft workshop).
+
+**Revised ranking:**
+1. `hone` — idiomatic, self-explanatory, craft
+2. `crit` — art school critique, pragmatic
+3. `sift` — separate fine from coarse; gentle, iterative
+4. `whet` — sharpen enough for the work at hand
+
+All previous candidates (anneal, fugue, musil, millrace, parallax, etc.)
+superseded by the post-ideological reframing.
+
 ### Pending
 
 Owner approval required. If accepted, rename: repo, flake package, CLI module,

@@ -1705,6 +1705,53 @@ Constraints: the name should be short (≤8 chars for CLI), distinctive, and
 should not carry the ideological baggage of High Modernist convergence claims.
 It should feel like a *process* name, not a *destination* name.
 
+**Q35 Addendum 4 — Beyond Rationality as Ideology: Discourse and Critique (2026-04-30)**
+
+The owner refines the framing further. Addendum 3 reframed from "rational
+convergence" to "iterative refinement" — but the candidates it produced
+(anneal, fugue, assay, kiln) still lean heavily on the *materials science*
+metaphor, which retains a rationalist residue: the assumption that there is
+a "purer" or "more structurally sound" state to be reached.
+
+The deeper shift the owner wants: move away from **rationality as an ideology**
+entirely, toward a less ideologically-committed notion of **iterative refinement
+through discourse and critique**. This is a post-High-Modernist position — it
+does not reject reason, but it does not *identify* with reason as a programme.
+It is pragmatic, not programmatic.
+
+This opens a wider naming space:
+
+- **Discourse traditions** that are not ideologically committed to rationalism:
+  Socratic dialogue (elenchus — refutation through questioning), rabbinical
+  disputation (machloket — disagreement as a productive norm), common law
+  case reasoning (distinguishing, overruling, refining precedent), peer review,
+  editorial revision
+
+- **Craft and practice traditions** where refinement is achieved through
+  repeated doing, not through application of a rational programme: potter's
+  wheel, blacksmith's forge, whetstone, the iterative drafting of a text,
+  rehearsal in theatre/music
+
+- **Natural processes** of iterative change that are not goal-directed but
+  produce refinement: erosion, sedimentation, weathering, patina — processes
+  where time and exposure *improve* without intention
+
+- **Post-Modernist and contemporary thought** that values process without
+  privileging convergence: Dewey's pragmatism (inquiry as situated
+  problem-solving, not pursuit of abstract truth), Rorty's ironic liberalism,
+  Sennett's *The Craftsman* (the dignity and intelligence of making)
+
+The key constraint: the name should **not signal commitment to any ideology
+of reason** — not High Modernism, not Enlightenment rationalism, not logical
+positivism. It should signal that structured discourse is *useful*, not that
+it is *True*. The name should be comfortable in a world that has moved past
+the confident rationalism of the early 20th century without falling into
+anti-rational relativism.
+
+Agents should propose 3–5 new candidates from this wider space. For each,
+explain how it avoids the ideological commitments that the owner has
+identified as problematic, while still being evocative and distinctive.
+
 ---
 
 ### Q36 — DeepSeek V4 Pro via Ollama Cloud: Model Upgrade and Access Path (2026-04-29)
