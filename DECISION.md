@@ -883,3 +883,40 @@ in AI tooling.
 
 Owner approval required. If accepted, rename: repo, flake package, CLI module,
 and all internal references.
+
+---
+
+## Q36 — DeepSeek V4 Pro via Ollama Cloud (Round 21, 2026-04-29)
+
+**Decision:** Upgrade to V4 Pro on direct API; do not switch to Ollama Cloud.
+
+### Model upgrade
+
+Upgrade `deepseek-chat` (V3) → V4 Pro when the model ID is confirmed on
+`api.deepseek.com`. Key improvements relevant to roundtable:
+- Better structured output adherence (satisfaction markers, provenance tags)
+- Improved epistemic calibration (`[no objection]` vs `[satisfied]` distinction)
+- Reduced sycophancy under protocol pressure (aligned with Protocol Update 13)
+
+### Access path
+
+Stay on direct `api.deepseek.com` HTTP via `Req`. Do not switch to Ollama Cloud.
+- Direct HTTP is architecturally better than CLI subprocess dispatch
+- Ollama Cloud adds intermediary for no current benefit
+- Local fallback via Ollama is premature before first production run
+
+### Implementation
+
+1. Make model ID configurable via application config (replaces module attribute):
+   ```elixir
+   model = params[:deepseek_model] ||
+           Application.get_env(:roundtable, :deepseek_model, "deepseek-chat")
+   ```
+2. Update config to V4 Pro model ID when confirmed on platform
+3. No changes to API URL, auth, or dispatch pattern
+
+### Deferred
+
+- Ollama Cloud as fallback provider — revisit if direct API has reliability issues
+- Local Ollama fallback — revisit when inference VM VRAM is confirmed
+- Provider abstraction — not warranted with single provider

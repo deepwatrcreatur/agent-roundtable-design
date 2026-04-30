@@ -1593,3 +1593,84 @@ For each candidate name, state which icon or tradition it draws from and why
 the connection fits the project's character. Names may reference specific works,
 figures, movements, or concepts from the above domains — or from other High
 Modernist sources the agents identify.
+
+---
+
+### Q36 — DeepSeek V4 Pro via Ollama Cloud: Model Upgrade and Access Path (2026-04-29)
+
+**Context and motivation:**
+
+DeepSeek V4 Pro has been released and is available via Ollama Cloud. The current
+roundtable integration (Protocol Update 14) uses DeepSeek V3 (`deepseek-chat`)
+via direct Elixir HTTP to `api.deepseek.com`. Two questions arise:
+
+1. **Model upgrade:** Is V4 Pro a meaningful upgrade over V3 for the roundtable
+   agent role? What are the capability differences, pricing differences, and
+   quality-of-structured-output differences?
+
+2. **Access path:** Ollama Cloud provides a CLI-based access path (`ollama run
+   deepseek-v4-pro`), while the current implementation uses direct HTTP via `Req`.
+   The roundtable's `RunCliAgent` already has both CLI dispatch (for Claude, Codex,
+   Gemini) and HTTP dispatch (for DeepSeek). The question is whether Ollama Cloud
+   changes the calculus — does it offer advantages (unified model management,
+   fallback to local inference, billing simplification) that justify switching
+   from direct HTTP?
+
+**Q36.1 — DeepSeek V4 Pro capabilities and fit**
+
+- What are the reported improvements of V4 Pro over V3 (deepseek-chat)?
+  Reasoning depth, instruction following, structured output quality, context
+  length, speed.
+- For the roundtable agent role (structured positions with provenance-tagged
+  claims, satisfaction markers, and explicit warrants), does V4 Pro offer a
+  meaningful quality improvement?
+- Pricing comparison: V4 Pro via Ollama Cloud vs. V3 via api.deepseek.com.
+  Does the cost change meaningfully at roundtable usage levels (~$0.50–2.31/month)?
+- Is V4 Pro also available via the direct `api.deepseek.com` endpoint? If so,
+  is the upgrade simply changing `@deepseek_default_model` from `"deepseek-chat"`
+  to the V4 Pro model ID?
+
+**Q36.2 — Ollama Cloud as access path**
+
+Ollama Cloud provides:
+- CLI access: `ollama run <model>` — similar to how Claude, Codex, and Gemini
+  are invoked
+- API access: Ollama exposes an OpenAI-compatible API at a cloud endpoint
+- Unified billing across multiple models (not just DeepSeek)
+- Potential fallback to local Ollama instance on the inference VM
+
+The current implementation uses direct HTTP via `Req` in `RunCliAgent.run_deepseek/2`.
+Evaluate:
+
+- **CLI path:** Would switching DeepSeek from HTTP to CLI (via `ollama run`)
+  simplify the architecture by making all agents use the same dispatch pattern?
+  Or does it add subprocess overhead for no benefit?
+- **Ollama Cloud HTTP API:** If Ollama Cloud exposes an OpenAI-compatible HTTP
+  endpoint, the change is minimal — just update `@deepseek_api_url` and
+  authentication. Is this the case?
+- **Local fallback:** One advantage of Ollama is seamless switching between
+  cloud and local inference. If the inference VM can run V4 Pro (or falls back
+  to V3), the orchestrator gains resilience. Is this worth the architectural
+  change?
+- **Billing:** Does Ollama Cloud simplify billing vs. a direct DeepSeek account?
+  Or does it add a markup?
+
+**Q36.3 — Recommendation**
+
+Given Q36.1–Q36.2, recommend:
+1. Whether to upgrade from V3 to V4 Pro
+2. Whether to switch from direct `api.deepseek.com` HTTP to Ollama Cloud
+3. If switching, which access pattern (CLI or HTTP) and what code changes are
+   needed in `RunCliAgent`
+4. Whether the current `@deepseek_default_model` / `@deepseek_api_url` module
+   attributes are sufficient configuration points, or whether a more flexible
+   provider abstraction is warranted
+
+**Constraints for Q36:**
+- The owner already has a DeepSeek API key provisioned at `platform.deepseek.com`
+- The homelab has an inference VM with Ollama available as a NixOS service
+- The direct HTTP path (`Req` in `RunCliAgent`) is already working and tested
+- Bias toward minimal change unless the benefit is clear
+- Brief premise challenge required: *The current V3 integration works and costs
+  < $2.50/month. Is there a concrete quality or reliability problem that V4 Pro
+  or Ollama Cloud solves, or is this change-for-change's-sake?*
