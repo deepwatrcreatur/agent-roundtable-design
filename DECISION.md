@@ -1007,10 +1007,54 @@ Other candidates evaluated: `vanner` (French/English mining, 6 chars),
 `krino` (Greek root of "criterion," 5 chars), `zaranda` (Spanish, 7 chars),
 `vanna` (Swedish, 5 chars — Vanna White risk).
 
-### Pending
+### Decision
 
-Owner approval required. If accepted, rename: repo, flake package, CLI module,
-and all internal references.
+**`vaglio` adopted** by the owner (2026-04-30). Internal name change effective
+immediately. GitHub repo rename and code-level rename pending as work items.
+
+---
+
+## Q37 — Vaglio Evaluation Framework (Round 22, 2026-04-30)
+
+**Decision:** Build a minimal eval framework comparing vaglio (multi-agent
+protocol) to single-model baselines.
+
+### Metrics (6)
+
+1. **Consideration coverage** — unique substantive points (LLM judge)
+2. **Self-consistency** — internal contradictions (LLM judge)
+3. **Blind preference** — "which is more useful?" (human judge)
+4. **Cost ratio** — token/dollar multiplier (computed)
+5. **Dissent surfacing** — explicit counter-considerations (LLM judge)
+6. **Training diversity** — proportion unique to one agent (computed)
+
+### Task set
+
+12 tasks: 5 replayed from Q1–Q36, 5 synthetic design questions, 2 code review.
+
+### Three baselines
+
+1. **Naive single:** Minimal prompt, one model
+2. **Protocol-structured single:** Same vaglio prompt structure, one model
+3. **Self-debate single:** One model generates 3 perspectives, then synthesizes
+
+### Phased approach
+
+Start with 6 tasks × vaglio vs. protocol-structured single. If vaglio wins
+clearly (5/6+), expand. Budget: $7–20.
+
+### Pre-registered hypotheses
+
+- H1: Coverage 1.5–3x → if not, revise roster
+- H2: ≥40% considerations unique to one agent → if not, agents redundant
+- H3: Owner prefers vaglio ≥7/12 → if not, overhead not justified
+- H-null: Structured single matches vaglio → protocol prompt is the product
+- H-null-2: Self-debate matches vaglio → multi-agent architecture unnecessary
+
+### Infrastructure
+
+`Vaglio.Eval` module with `Run` struct, `Judge` (LLM-as-judge), `Metrics`
+extraction. All intermediate state recorded. Results in `state/eval/` as JSON.
 
 ---
 

@@ -1832,3 +1832,127 @@ Given Q36.1–Q36.2, recommend:
 - Brief premise challenge required: *The current V3 integration works and costs
   < $2.50/month. Is there a concrete quality or reliability problem that V4 Pro
   or Ollama Cloud solves, or is this change-for-change's-sake?*
+
+---
+
+### Q37 — Vaglio Evaluation Framework: Multi-Agent vs. Single-Model (2026-04-30)
+
+**Context and motivation:**
+
+The project (now internally named **vaglio**) has produced 21 rounds of structured
+multi-agent discussion. The core claim is that structured multi-agent discourse
+produces better decisions than single-model analysis. This claim has never been
+tested. Without evaluation, vaglio is a protocol backed by intuition, not evidence.
+
+The evaluation must compare:
+- **Vaglio mode:** Multiple agents (Codex, Gemini, DeepSeek, Claude IC) running
+  through the full protocol (structured turns, satisfaction markers, typed
+  provenance, IC synthesis, premise challenge)
+- **Single-model baseline:** One model (e.g., Claude alone) given the same
+  question with equivalent context and time budget, producing a single analysis
+
+The question is not "is multi-agent always better?" — it is "under what
+conditions does vaglio produce measurably different or better outcomes than
+a single capable model?"
+
+**Q37.1 — What should be measured?**
+
+Evaluation requires metrics. Propose concrete, measurable dimensions on which
+vaglio output can be compared to single-model output. Consider:
+
+- **Coverage:** Does vaglio surface more distinct considerations than a single
+  model? (Count of unique substantive points, categorised by provenance type)
+- **Error detection:** Does vaglio catch errors that a single model misses?
+  (Requires ground-truth or expert-judged questions where errors are identifiable)
+- **Decision quality:** Is the final DECISION.md recommendation better? (Requires
+  expert evaluation or downstream outcome measurement — hard to automate)
+- **Diversity of perspectives:** Does vaglio produce genuinely different
+  viewpoints, or do agents converge to the same position regardless of
+  structure? (Measure inter-agent agreement before vs. after rounds)
+- **Calibration:** Are vaglio's satisfaction markers well-calibrated? When all
+  agents mark `[satisfied]`, is the decision actually good? When `[no objection]`
+  is used, is the decision actually weaker?
+- **Cost-effectiveness:** At what token/dollar cost does vaglio produce its
+  improvements (if any) over a single model? Is there a break-even point?
+
+Which of these are feasible to measure with automated tooling vs. requiring
+human judgment? Propose a minimal eval set that balances signal with
+implementation cost.
+
+**Q37.2 — Evaluation task design**
+
+What kinds of questions/tasks make good evaluation targets? Consider:
+
+- **Factual questions with known answers:** Easy to evaluate but may not
+  represent vaglio's actual use case (design decisions, architecture analysis)
+- **Design questions from prior rounds:** Re-run Q1–Q36 in single-model mode
+  and compare to the vaglio output. Risk: the questions were designed for
+  multi-agent discussion and may be biased toward that format.
+- **Synthetic design questions:** Create new questions specifically for
+  evaluation — e.g., "design the caching layer for service X" or "evaluate
+  three deployment options for Y." Evaluate output blind (human judge does
+  not know which came from vaglio vs. single-model).
+- **Code review tasks:** Give vaglio and a single model the same codebase +
+  change to review. Compare: number of issues found, severity accuracy,
+  false positive rate.
+- **Bug diagnosis tasks:** Present a bug report and codebase. Compare: time
+  to root cause, accuracy of diagnosis, quality of proposed fix.
+
+What mix of task types provides the most useful signal about vaglio's value?
+
+**Q37.3 — Evaluation infrastructure**
+
+What tooling is needed to run evals? Consider:
+
+- **Harness:** A script or module that runs the same question through both
+  vaglio mode (full protocol) and single-model mode (one agent, same context),
+  captures output, and stores results for comparison.
+- **Metrics extraction:** Automated extraction of countable metrics (number of
+  considerations, provenance tag counts, satisfaction marker distribution)
+  from vaglio output.
+- **Blind comparison:** A mechanism for presenting two outputs side-by-side
+  to a human judge without revealing which is vaglio vs. single-model.
+- **Integration with existing code:** The eval harness should use `RunCliAgent`
+  and the existing orchestrator infrastructure, not a separate system.
+- **Reproducibility:** Fixed random seeds (where applicable), recorded model
+  versions, stored prompts and responses for re-analysis.
+
+Propose a minimal eval module (`Roundtable.Eval` or `Vaglio.Eval`) with the
+smallest useful API.
+
+**Q37.4 — Statistical validity**
+
+How many evaluation runs are needed for statistically meaningful comparison?
+Multi-agent runs are expensive (4x single-model token cost + orchestration
+overhead). What is the minimum sample size for each task type to detect a
+meaningful difference in coverage, error detection, or decision quality?
+
+Is there a sequential testing approach (run evals one at a time, stop when
+significance is reached or a budget is exhausted) that is more efficient than
+a fixed sample size?
+
+**Q37.5 — What would change our minds?**
+
+Before running evals, state the hypotheses and the outcomes that would change
+the project's direction:
+
+- **If vaglio shows no improvement over single-model on any metric:** Does this
+  mean the protocol is worthless, or that the metrics are wrong, or that the
+  improvement is in dimensions we are not measuring (e.g., owner confidence,
+  process transparency)?
+- **If vaglio shows improvement only on coverage but not decision quality:**
+  Is coverage alone sufficient justification for the protocol's cost?
+- **If a single model with a structured prompt (satisfaction markers, premise
+  challenge, etc.) matches vaglio's output:** Does this mean the value is in
+  the protocol's structure, not in the multi-agent aspect?
+
+**Constraints for Q37:**
+- Eval infrastructure must be implementable in Elixir, using existing deps
+- Must work with the current agent roster (`[:codex, :gemini, :deepseek, :claude_ic]`)
+- Must be runnable on the homelab without external eval services
+- Bias toward simple, fast evals that produce directional signal over
+  comprehensive benchmarks that take weeks to build
+- Brief premise challenge required: *The project has produced 21 rounds of
+  useful discussion without evals. Is formal evaluation necessary, or is the
+  owner's subjective assessment that "the discussions are better than
+  single-model output" sufficient for a personal tool?*
