@@ -871,13 +871,34 @@ second. The name works on three levels:
 Properties: 8 characters, unambiguous pronunciation, no dominant existing project
 in AI tooling.
 
-**Alternative ranking:**
-1. `parallax` — mechanism + heritage (recommended)
-2. `millrace` — Mill + structural channel (craft/engineering register)
-3. `oulipo` — constraint as generative method (6 chars, niche but precise)
-4. `dissensus` — names the protocol's distinctive contribution (academic register)
-5. `bauhaus` — broadest recognition but may carry excess cultural baggage
-6. `musil` — the Parallel Campaign as direct roundtable analogue (too obscure)
+### Q35 Addendum 2 — Parallax Withdrawn, Musil Promoted (2026-04-30)
+
+**Parallax withdrawn.** The Joycean reading — Bloom's parallax as skepticism
+about convergence, not celebration of it — contradicts the tool's purpose at
+the surface level. A name whose surface reading is the wrong reading is a
+naming failure. All three agents agreed to withdraw.
+
+**Musil promoted to #1.** The addendum deepened the case:
+- Reading (iii) of the novel: structured deliberation is *both* valuable and
+  limited — this is the roundtable protocol's actual philosophical position
+- The Parallel Campaign demands *quality of attention* from participants;
+  so does the protocol (provenance markers, warrants, satisfaction states)
+- ACTIVE_DISCUSSION.md as primary artifact mirrors Musil's thesis that the
+  process is the product
+- 5 characters, distinctive, Kafka precedent for obscure literary names in tech
+
+**"Unfinished" objection** (Gemini): the novel is incomplete, which may signal
+the project will remain incomplete. Reframed: the novel is unfinished because
+the question is unfinishable. The protocol's `[no objection]` marker exists
+for exactly this — questions that cannot be closed with genuine `[satisfied]`.
+
+**Revised ranking:**
+1. `musil` — strongest intellectual case; Parallel Campaign as direct analogue
+2. `millrace` — Mill + structural channel; self-explanatory without literary knowledge
+3. `aktion` — from Parallelaktion; 6 chars; parseable without knowing Musil
+4. `oulipo` — constraint as generative method; dark horse
+
+`parallax` and `dissensus` dropped.
 
 ### Pending
 

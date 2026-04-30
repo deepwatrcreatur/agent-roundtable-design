@@ -1594,6 +1594,64 @@ the connection fits the project's character. Names may reference specific works,
 figures, movements, or concepts from the above domains — or from other High
 Modernist sources the agents identify.
 
+**Q35 Addendum 2 — Parallax as Skepticism; Musil's Parallel Campaign (2026-04-30)**
+
+The owner raises two critical challenges to the Round 20 addendum synthesis:
+
+**(A) Parallax in Joyce is skeptical, not convergent.**
+
+In *Ulysses*, Bloom's recurring "parallax" thought is not a celebration of
+multiple-viewpoint convergence — it is an expression of the impossibility of
+fixing a stable position. Bloom cannot understand parallax; the word haunts him
+as a marker of *cognitive limitation*, not epistemic triumph. The novel uses
+parallax to suggest that different viewpoints *do not converge* — they merely
+shift the apparent position of the object without ever reaching the "true" one.
+
+If this reading is correct, naming the project `parallax` would ironically signal
+*skepticism about the project's own premises*: that structured multi-agent
+discourse converges on truth. This may be intellectually honest (Scott's critique
+of High Modernism is precisely that rational convergence is an illusion) — but
+is it the right signal for a tool whose purpose is to *produce reliable judgment*?
+
+Agents should:
+1. Assess the Joycean parallax reading — is the skeptical interpretation
+   correct, or is it one of several valid readings?
+2. If the skeptical reading is correct, does this disqualify `parallax` as a
+   name, or does the ironic self-awareness actually *strengthen* it?
+
+**(B) Musil's *Man Without Qualities* — promotion or critique?**
+
+DeepSeek proposed `musil` based on the Parallel Campaign as a direct analogue
+of the roundtable: a committee of intellectuals trying to define civilisational
+essence through structured deliberation. But the Parallel Campaign is also
+widely read as Musil's *satire* of exactly this kind of project. The committee
+produces nothing; it dissolves into personal agendas, institutional inertia,
+and the approaching catastrophe of World War I.
+
+Is Musil's novel:
+**(i)** Promoting the idea that structured rational deliberation is valuable
+even when it fails to reach a conclusion (the process is the product)?
+**(ii)** Criticizing the High Modernist delusion that rational committees can
+produce meaningful consensus on complex questions?
+**(iii)** Something more nuanced — a novel that holds both positions
+simultaneously, showing that the attempt at structured discourse is *both*
+valuable and doomed?
+
+If reading (iii) is correct, `musil` might be the most intellectually honest
+name of all — a name that acknowledges both the ambition and the limits of the
+project. But it requires the reader to know the novel.
+
+Agents should:
+1. Assess which reading of Musil is best supported by the text
+2. Evaluate whether naming the project after a satirical/ambivalent work is
+   appropriate or self-undermining
+3. Propose any alternative names inspired by Musil's novel (characters, concepts,
+   chapter titles) that capture the nuance without requiring full knowledge of
+   the source
+
+For each candidate name, state which icon or tradition it draws from and why
+the connection fits the project's character.
+
 ---
 
 ### Q36 — DeepSeek V4 Pro via Ollama Cloud: Model Upgrade and Access Path (2026-04-29)
