@@ -986,6 +986,27 @@ Alternatives with more edge:
 - `flail` (5 chars) — the threshing tool; controlled violence
 - `crucible` (8 chars) — testing vessel; maximum drama
 
+### Q35 Addendum 6 — Foreign Languages (2026-04-30)
+
+Owner accepts winnowing metaphor but finds the English word uncatchy. Foreign
+language search across Italian, Portuguese, French, Spanish, Greek, Swedish.
+
+**Recommendation: `vaglio`** (Italian)
+
+The winnowing sieve. In Italian, *passare al vaglio* means "to subject to
+scrutiny" — the word already bridges the agricultural metaphor and intellectual
+practice in its own language. 6 characters, musical ('gl' → 'ly' sound),
+distinctive, namespace-clean. `vaglio run`.
+
+**Alternative: `crivo`** (Portuguese)
+
+The sieve/screen. 5 characters. Sharp 'cr-' opening, energetic sound. CREE-voh.
+More punch, less music. `crivo run`.
+
+Other candidates evaluated: `vanner` (French/English mining, 6 chars),
+`krino` (Greek root of "criterion," 5 chars), `zaranda` (Spanish, 7 chars),
+`vanna` (Swedish, 5 chars — Vanna White risk).
+
 ### Pending
 
 Owner approval required. If accepted, rename: repo, flake package, CLI module,
