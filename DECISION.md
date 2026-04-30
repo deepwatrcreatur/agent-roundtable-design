@@ -1092,3 +1092,77 @@ Stay on direct `api.deepseek.com` HTTP via `Req`. Do not switch to Ollama Cloud.
 - Ollama Cloud as fallback provider — revisit if direct API has reliability issues
 - Local Ollama fallback — revisit when inference VM VRAM is confirmed
 - Provider abstraction — not warranted with single provider
+
+---
+
+## Q38 Decision: Eval Landscape and Competitive Analysis (Round 23, 2026-04-30)
+
+**Consensus:** All 3 agents satisfied.
+
+### Key findings
+
+1. Comparing vaglio to SWE-bench coding agents is substantially a category error
+2. No public benchmark exists for multi-agent deliberation quality
+3. Vaglio has no direct commercial competitors; AutoGen is closest framework
+4. Custom evals (items 28-32) should be primary focus
+
+### Eval strategy
+
+- Complete items 28-32 as priority
+- If H1/H2 confirm, run MT-Bench as credibility data point (80 questions, open-ended quality)
+- Optionally run TruthfulQA subset for hallucination resistance (~$10-15)
+- Do NOT run SWE-bench, HumanEval, MATH, or ARC-AGI
+- Report cost-per-quality-unit and confidence intervals in all results
+
+### Competitive positioning
+
+- Vaglio's edge: open-ended design questions, premise challenge, calibrated
+  confidence via disagreement, provenance transparency
+- Not competitive on: single-answer tasks, code generation, latency-sensitive tasks
+- Genuine competitors: AutoGen (framework), MoA (research), MAD (academic precedent)
+- Not competitors: Bito, Cursor, Devin, SWE-Agent (coding agents, different problem)
+
+---
+
+## Q39 Decision: Karpathy's LLM Council and Market Position (Round 24, 2026-04-30)
+
+**Consensus:** All 3 agents satisfied-conditional (all conditions: run comparative
+evals within 60 days).
+
+### Core finding
+
+The "ask N models, combine" pattern has been commoditized by Karpathy's LLM Council.
+Vaglio's defensible differentiation is the protocol layer: multi-round convergence,
+satisfaction markers, typed provenance, premise challenges, coordinator failover,
+anti-groupthink mechanisms. This has not been externally validated.
+
+### Architectural comparison
+
+| Feature | Karpathy Council | Vaglio |
+|---|---|---|
+| Dispatch | Single-pass via OpenRouter | Multi-round via CLI agents |
+| Peer review | Anonymous (anti-bias) | Signed (provenance, but bias risk) |
+| Convergence | Chairman picks best | Satisfaction protocol with FSM |
+| Fault tolerance | None (stateless) | Coordinator failover, crash recovery |
+| Provenance | None | Typed: observed/inferred/testimony |
+| Anti-groupthink | 1 mechanism (anonymity) | 6 mechanisms |
+| Complexity | Weekend project | 14+ work items, full orchestrator |
+
+### Strategic imperatives
+
+1. **Stop treating multi-model dispatch as the product** — that is commoditized
+2. **Run evals comparing vaglio multi-round vs. Council single-pass** — add
+   Council-style single-pass as a new baseline in items 28-32
+3. **Adopt anonymous peer review** from the Council pattern
+4. **Publish protocol as standalone specification** — become the standard, not
+   just an implementation
+5. **Position as "auditable AI deliberation protocol"** for regulated industries
+6. **Do not chase the developer tooling market** — Cursor/Claude Code will own it
+7. **Viable business model:** bootstrapped open-source with consulting, not
+   VC-backed SaaS
+
+### 60-day clock
+
+Window between "validated pattern" and "commoditized feature" is closing. Empirical
+evidence that multi-round deliberation outperforms single-pass Council synthesis
+must be published before the market decides the simple version is "good enough."

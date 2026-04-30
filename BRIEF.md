@@ -1956,3 +1956,128 @@ the project's direction:
   useful discussion without evals. Is formal evaluation necessary, or is the
   owner's subjective assessment that "the discussions are better than
   single-model output" sufficient for a personal tool?*
+
+---
+
+### Q38 — Eval Landscape and Competitive Analysis
+
+**Context:** Vaglio is a multi-agent deliberation system — it runs multiple LLM
+agents through a structured protocol to produce higher-quality analysis than any
+single model alone. We are building internal evals (items 28-32) to measure
+vaglio's value. Meanwhile, several commercial products claim strong results on
+public benchmarks like SWE-bench Pro. We need to understand which public
+benchmarks are relevant to what vaglio does, and which products are genuine
+competition vs. solving a different problem.
+
+Bito's AI Architect claims 70% on SWE-bench Pro (boosting Opus 4.6 from 51.9%).
+SWE-bench Pro measures code patch generation from issue descriptions — a coding
+agent task, not a deliberation task.
+
+**Q38.1 — Benchmark landscape**
+
+What public benchmarks exist that are relevant to multi-agent deliberation
+quality? Consider: SWE-bench (Verified, Pro, Live), MMLU-Pro, GPQA,
+LiveBench, BigBench, HumanEval, MATH, ARC-AGI, and any others. For each,
+assess: does it measure something vaglio could plausibly improve on compared
+to a single model?
+
+**Q38.2 — Competitive products**
+
+Which existing products or research systems are genuine competitors to vaglio's
+multi-agent deliberation approach? Consider: Bito AI Architect, Cursor, Devin,
+SWE-Agent, OpenHands, Aider, GitHub Copilot Workspace, AutoCodeRover,
+Agentless, ChatDev, MetaGPT, CrewAI, AutoGen, and others. For each, assess:
+are they solving the same problem as vaglio, or a different one?
+
+**Q38.3 — Where vaglio has an edge**
+
+Given the benchmark and competitive landscape, what tasks or evaluation
+dimensions would best demonstrate vaglio's unique value? Where would
+multi-perspective deliberation genuinely outperform a single agent with a
+knowledge graph or tool use?
+
+**Q38.4 — Practical eval strategy**
+
+Should vaglio participate in any public benchmarks, or should we focus
+exclusively on custom evals that measure deliberation quality? If public
+benchmarks, which ones and how would we adapt vaglio's output format?
+
+**Constraints for Q38:**
+- Be honest about where vaglio is and isn't competitive
+- Distinguish between "coding agent" and "deliberation system" capabilities
+- Consider the homelab deployment context (cost, compute constraints)
+- Premise challenge required: *Is comparing vaglio to coding agents like
+  SWE-bench entrants a category error, or is there a meaningful common
+  ground?*
+
+---
+
+### Q39 — Karpathy's LLM Council and Vaglio's Market Position
+
+**Context:** Andrej Karpathy has published an "LLM Council" concept — multiple
+LLMs generate responses to the same query, peer-review each other's anonymized
+outputs, and a chairman/synthesizer produces a final combined result. This is
+architecturally very similar to vaglio. Key developments from X/Twitter:
+
+- Karpathy built a simple web app using OpenRouter (dispatching to GPT, Claude,
+  Gemini, Grok; then peer review + chairman). He noted it works even with one
+  LLM using varied prompts.
+- @omarsar0 built it as a plugin inside Claude Code, hooked up to OpenRouter,
+  and experimented with it for agentic coding, evaluation, and research. Plans
+  to open-source.
+- @HarperEFoley implemented a version in Claude with sub-agents using distinct
+  reasoning styles. The peer-review step caught issues single advisors missed.
+- @PostleTyler noted a founder (@eshanchordia) independently arrived at a similar
+  "council of agents" where multiple agents debate instead of a single
+  orchestrator — right around when Karpathy published his.
+- Cursor may be adding an "LLM council" feature.
+- People are using it for reasoning, coding agents, knowledge work, and reducing
+  hallucinations via debate/review.
+- The pattern is being discussed as practical LLM ensembling / Mixture-of-Agents.
+
+**Q39.1 — Vaglio vs. Karpathy's Council: architectural comparison**
+
+Compare vaglio's architecture (heterogeneous CLI agents, structured satisfaction
+protocol, typed provenance, IC synthesis, multi-round convergence) to the LLM
+Council pattern (multi-model dispatch, anonymous peer review, chairman synthesis).
+What does vaglio do that the Council pattern does not, and vice versa? Is vaglio's
+additional protocol complexity justified, or is the simpler Council pattern
+sufficient?
+
+**Q39.2 — Competitive moat assessment**
+
+If Karpathy's pattern is gaining traction and being built into tools like Claude
+Code and Cursor, what is vaglio's competitive moat? Is there defensible
+differentiation, or has the core idea been commoditized? Consider:
+- The protocol (satisfaction markers, provenance typing, premise challenges)
+- The heterogeneous agent roster (CLI agents from different providers)
+- The Elixir/BEAM implementation (fault tolerance, concurrency)
+- The homelab deployment model (self-hosted, privacy-preserving)
+
+**Q39.3 — Company viability**
+
+Is there a viable company in this space? Consider:
+- Would anyone pay for a more structured version of what Karpathy built for free?
+- What is the TAM for multi-agent deliberation tools?
+- What business model makes sense (open-core, SaaS, enterprise, consulting)?
+- Who are the potential customers (enterprises, researchers, developers)?
+- What would a funding pitch look like?
+
+**Q39.4 — Strategic response**
+
+Given that the LLM Council pattern is being independently discovered by multiple
+people simultaneously, what should the vaglio project do? Options include:
+- Accelerate and differentiate (add features the simple Council lacks)
+- Pivot to focus on a specific vertical (code review, architecture decisions)
+- Open-source aggressively and build community
+- Abandon the general-purpose deliberation framing
+- Something else
+
+**Constraints for Q39:**
+- Be brutally honest about whether vaglio has a real advantage or has been
+  scooped
+- Consider timing — Karpathy has mass distribution; vaglio has a working Elixir
+  implementation with 23 rounds of real usage
+- Premise challenge required: *Is the fact that multiple people independently
+  discovered this pattern evidence that it's a real need (validating vaglio),
+  or evidence that it's too obvious to be defensible (threatening vaglio)?*
