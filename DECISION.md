@@ -850,7 +850,36 @@ produced genuine diversity, not just variations on a theme.
 | High Modernism / legibility | A millrace is an engineered channel — structure imposed on nature |
 | Anti-trap discourse | The channel prevents diffusion and waste — discourse without structure dissipates |
 
+### Q35 Addendum — High Modernist Icons (Round 20, 2026-04-29)
+
+The addendum drew on literary, architectural, and artistic High Modernism and
+produced 10 additional candidates. The cultural vocabulary proved richer than
+the abstract philosophical vocabulary from the main round.
+
+**Revised recommendation: `parallax`**
+
+Overtakes `millrace` after all three agents independently ranked it first or
+second. The name works on three levels:
+1. **Astronomical:** parallax is how you measure the distance to stars — you need
+   multiple observation points to determine what is real
+2. **Joycean:** the word recurs in *Ulysses* as Bloom's intellectual puzzle —
+   literary Modernism at its most structured
+3. **Protocol-specific:** the roundtable produces parallax — the same question
+   viewed from multiple agent positions, with the IC triangulating truth from the
+   displacement between them
+
+Properties: 8 characters, unambiguous pronunciation, no dominant existing project
+in AI tooling.
+
+**Alternative ranking:**
+1. `parallax` — mechanism + heritage (recommended)
+2. `millrace` — Mill + structural channel (craft/engineering register)
+3. `oulipo` — constraint as generative method (6 chars, niche but precise)
+4. `dissensus` — names the protocol's distinctive contribution (academic register)
+5. `bauhaus` — broadest recognition but may carry excess cultural baggage
+6. `musil` — the Parallel Campaign as direct roundtable analogue (too obscure)
+
 ### Pending
 
 Owner approval required. If accepted, rename: repo, flake package, CLI module,
-and all internal references from `roundtable` → `millrace`.
+and all internal references.

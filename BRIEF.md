@@ -1518,3 +1518,78 @@ no consensus is possible, present the top 2 with the trade-off between them.
   `roundtable`? The functional name is clear, searchable, and already in use
   throughout the codebase. What does a "proper" name add that `roundtable` does
   not already provide?*
+
+**Q35 Addendum — Icons of High Modernism in Literature and Art (2026-04-29)**
+
+Round 20 drew primarily on philosophical and structural metaphors. High Modernism
+as a cultural movement produced some of the most ambitious projects in literature,
+architecture, urban planning, and art — projects that believed rational design
+could remake the world. These icons offer a richer naming vocabulary than abstract
+concepts alone.
+
+Agents should mine the following domains for name inspiration, looking for figures,
+works, and concepts that embody the ambition of making complex systems legible
+through structured reason:
+
+**(A) Literary High Modernism**
+
+The great Modernist novels are exercises in making consciousness legible —
+imposing structural order on the chaos of inner experience:
+
+- **Joyce** (*Ulysses*, 1922): the most structured novel ever written. Every
+  chapter maps to a Homeric episode, a body organ, an art, a colour, a symbol.
+  Joyce imposed a legibility grid on a single day in Dublin. The novel's method
+  — exhaustive structural correspondence — is analogous to the roundtable's
+  typed provenance markers and Toulmin warrants.
+- **Borges**: the Library of Babel (a total knowledge system), the Garden of
+  Forking Paths (branching deliberation), Tlön (a world remade by intellectual
+  committee). Borges wrote about what happens when rational systems become
+  self-referential.
+- **Musil** (*The Man Without Qualities*, 1930–43): a novel about a committee
+  (the "Parallel Campaign") trying to define the essence of a civilisation
+  through rational deliberation. The committee fails — but the attempt is the
+  point. Directly analogous to the roundtable project.
+- **Perec** (*Life: A User's Manual*, 1978): structured by a 10×10 grid and a
+  knight's tour algorithm. Oulipo constraints as productive structure — the
+  literary equivalent of protocol constraints that produce better discourse.
+
+**(B) Architectural and Urban High Modernism**
+
+Scott's *Seeing Like a State* draws its cautionary examples from this domain,
+but the ambition itself produced remarkable achievements:
+
+- **Le Corbusier** and the Ville Radieuse: the city as a machine for living.
+  Rational planning at maximum ambition. The roundtable protocol is a "machine
+  for thinking."
+- **Brasília** (Costa & Niemeyer, 1960): a capital city designed from scratch
+  on rationalist principles. The most complete realisation of High Modernist
+  urban planning. Beautiful, functional, and controversial.
+- **The Bauhaus** (1919–33): the school that believed good design could be
+  taught through systematic method. Form follows function. The protocol's
+  structured markers and phases are Bauhaus design applied to discourse.
+
+**(C) Scientific and Systems-Thinking High Modernism**
+
+- **The Vienna Circle** (1920s–30s): logical positivists who believed all
+  meaningful statements could be verified through structured analysis. Their
+  project failed (Gödel, Quine) but their ambition — making knowledge legible
+  and testable — is the roundtable's ambition.
+- **Cybernetics** (Wiener, 1948): the science of communication and control in
+  animal and machine. The roundtable's feedback loops (satisfaction markers,
+  consensus checks, phase transitions) are cybernetic.
+- **Operations Research**: WWII-era discipline of applying rational analysis to
+  complex operational problems. The roundtable is OR applied to discourse.
+
+**(D) Visual Art**
+
+- **Mondrian** and De Stijl: reducing visual complexity to primary colours and
+  right angles. The satisfaction markers (`[satisfied]`, `[no objection]`,
+  `[needs more evidence]`) are a Mondrian grid applied to agreement.
+- **Constructivism** (Rodchenko, El Lissitzky): art as rational construction,
+  not expression. The protocol constructs discourse rather than allowing it to
+  emerge organically.
+
+For each candidate name, state which icon or tradition it draws from and why
+the connection fits the project's character. Names may reference specific works,
+figures, movements, or concepts from the above domains — or from other High
+Modernist sources the agents identify.
