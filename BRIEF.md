@@ -2086,12 +2086,10 @@ people simultaneously, what should the vaglio project do? Options include:
 
 ### Q40 — Publishing the Vaglio Protocol as an Open Standard
 
-**Context:** Round 39 concluded that vaglio's defensible differentiation is the
-protocol layer, not the multi-model dispatch. It recommended publishing the
-protocol as a standalone specification and positioning vaglio as an "auditable
-AI deliberation protocol" for regulated industries. Meanwhile, the eval harness
-(items 28-32) exists but has not been run yet, and the 60-day window to
-establish the protocol before simpler patterns become entrenched is ticking.
+**Context:** Round 24 (Q39) established unanimous consensus that vaglio's
+defensible differentiation is the protocol layer, not multi-model dispatch. All
+three agents recommended publishing the protocol as a standalone specification.
+This question explores what that looks like concretely.
 
 The vaglio protocol has several separable layers:
 1. Agent turn structure (sequential/parallel, attributed/anonymous)

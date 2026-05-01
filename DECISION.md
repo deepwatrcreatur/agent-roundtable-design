@@ -1203,39 +1203,3 @@ Deferred: anti-groupthink mechanisms (layers 5), coordinator resilience (layer 6
 If H-null confirms (structured single matches vaglio), the paper becomes a negative
 result and the spec publication loses its justification. Evals are the existential
 prerequisite.
-
----
-
-## Q41 Decision: Delve and AI-Assisted Compliance (Round 26, 2026-04-30)
-
-**Consensus:** Closed under degraded quorum due to Claude/Opus provider rate
-limits. Decision based on the recorded Codex position and consistency with Q39/Q40.
-
-### Core finding
-
-Vaglio would not have "prevented Delve" in the strong sense, because the alleged
-failure was primarily fraud, incentive corruption, and governance breakdown rather
-than ordinary reasoning error. The protocol can increase auditability and expose
-epistemic weakness, but it cannot substitute for honest operators, independent
-auditors, or enforcement.
-
-### Product boundary
-
-- Valid scope: evidence review, findings triage, structured deliberation, and
-  durable audit trails for human compliance teams
-- Invalid scope: autonomous certification, "instant compliance," or any product
-  that implies the protocol itself is the auditor
-
-### Strategic implication
-
-The post-Delve market opportunity is real but narrow. The credible wedge is
-"auditable AI-assisted decision support for compliance workflows," not a faster
-version of the same automation pitch Delve used. If vaglio enters this space, it
-must preserve visible uncertainty, provenance typing, and named human sign-off.
-
-### Ethical requirement
-
-Any compliance-oriented product must reward surfacing exceptions and missing
-evidence rather than maximizing report throughput. If the business model depends
-on compressing uncertainty out of the record, it is strategically and ethically
-misaligned.
