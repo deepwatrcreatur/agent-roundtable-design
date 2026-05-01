@@ -1166,3 +1166,40 @@ anti-groupthink mechanisms. This has not been externally validated.
 Window between "validated pattern" and "commoditized feature" is closing. Empirical
 evidence that multi-round deliberation outperforms single-pass Council synthesis
 must be published before the market decides the simple version is "good enough."
+
+---
+
+## Q40 Decision: Publishing the Protocol as an Open Standard (Round 25, 2026-04-30)
+
+**Consensus:** All 3 agents satisfied-conditional (all: evals must run first).
+
+### Publication strategy
+
+- **Primary artifact:** arXiv paper (8-12 pages, cs.AI) with eval results
+- **Companion artifact:** GitHub spec repo (`v0.1.0`) with JSON schemas
+- **IETF/W3C:** rejected unanimously as premature
+- **Elixir codebase:** "original implementation" (not "reference implementation")
+
+### Minimum viable spec (v0.1.0)
+
+Normative layers:
+1. Agent turn structure (message envelope, round numbering, coordinator role)
+2. Satisfaction protocol (4 terminal markers, convergence rules)
+3. Multi-round convergence (phase state machine, max rounds, escalation)
+
+Recommended extension: epistemic provenance typing ([observed]/[inferred]/[testimony])
+
+Deferred: anti-groupthink mechanisms (layers 5), coordinator resilience (layer 6)
+
+### 60-day plan
+
+- Weeks 1-4: Run evals (items 28-32) + draft paper
+- Weeks 4-6: Finalize paper + extract spec into GitHub repo
+- Weeks 6-8: Minimal Python example (~200 lines) + simultaneous release
+- Outreach: COMMA/ArgMining for academics, HN/r/LocalLLaMA for practitioners
+
+### Gate condition
+
+If H-null confirms (structured single matches vaglio), the paper becomes a negative
+result and the spec publication loses its justification. Evals are the existential
+prerequisite.
