@@ -1203,3 +1203,83 @@ Deferred: anti-groupthink mechanisms (layers 5), coordinator resilience (layer 6
 If H-null confirms (structured single matches vaglio), the paper becomes a negative
 result and the spec publication loses its justification. Evals are the existential
 prerequisite.
+
+---
+
+## Q41 Decision: Delve and AI-Assisted Compliance (Round 26, 2026-04-30)
+
+**Consensus:** Closed under degraded quorum due to Claude/Opus provider rate
+limits. Decision based on the recorded Codex position and consistency with Q39/Q40.
+
+### Core finding
+
+Vaglio would not have "prevented Delve" in the strong sense, because the alleged
+failure was primarily fraud, incentive corruption, and governance breakdown rather
+than ordinary reasoning error. The protocol can increase auditability and expose
+epistemic weakness, but it cannot substitute for honest operators, independent
+auditors, or enforcement.
+
+### Product boundary
+
+- Valid scope: evidence review, findings triage, structured deliberation, and
+  durable audit trails for human compliance teams
+- Invalid scope: autonomous certification, "instant compliance," or any product
+  that implies the protocol itself is the auditor
+
+### Strategic implication
+
+The post-Delve market opportunity is real but narrow. The credible wedge is
+"auditable AI-assisted decision support for compliance workflows," not a faster
+version of the same automation pitch Delve used. If vaglio enters this space, it
+must preserve visible uncertainty, provenance typing, and named human sign-off.
+
+### Ethical requirement
+
+Any compliance-oriented product must reward surfacing exceptions and missing
+evidence rather than maximizing report throughput. If the business model depends
+on compressing uncertainty out of the record, it is strategically and ethically
+misaligned.
+
+
+---
+
+## Q42 Decision: Garry Tan's `gstack` and Skill-Driven Agent Workflows (Round 27, 2026-05-02)
+
+**Consensus:** Closed under degraded quorum by design. DeepSeek, Gemini,
+GitHub Copilot, and Codex all converged on "use it now, improve it next, do not
+mistake it for the final architecture."
+
+### Core finding
+
+`gstack` is a strong present-day methodology package for AI-assisted software
+work, especially for founder-led and small-team shipping. Its core value is not
+just a pile of prompts; it is the explicit sprint structure that stages product
+thinking, planning, implementation, review, QA, security, shipping, and retro.
+
+### Who should use it
+
+- **Strong fit:** solo technical founders, PM/engineering hybrids, staff
+  engineers, consultants, and small product teams with high taste
+- **Weak fit:** non-technical founders seeking a literal replacement for a team,
+  and regulated / enterprise workflows that require stronger governance,
+  permissions, and audit controls than a skill pack can provide
+
+### Strategic interpretation
+
+The durable contribution is the **methodology**, not the current Claude-centric
+packaging. The likely long-term path is host-neutral workflow definitions plus
+per-host adapters, with stronger execution controls layered underneath.
+
+### Recommended improvements
+
+1. Typed artifact handoffs between stages
+2. Budget and stuckness / escalation controls
+3. Host capability awareness and portable manifests
+4. Empirical evaluation of whether the process improves outcomes
+
+### Bottom line
+
+Do not dismiss `gstack` as "just prompts," but do not confuse it with the end
+state either. It is best seen as an early, high-signal articulation of a broader
+norm: agent work should follow explicit, reviewable sprint rituals rather than a
+single undifferentiated chat loop.

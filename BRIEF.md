@@ -2230,3 +2230,78 @@ compliance assessment rather than rubber-stamping?
 - Premise challenge required: *Is entering the compliance market after Delve's
   failure opportunistic ambulance-chasing, or is it a genuine case where
   vaglio's protocol addresses a real gap that Delve exposed?*
+
+
+---
+
+### Q42 — Garry Tan's `gstack` and the Future of Skill-Driven Agent Workflows
+
+**Context:** Garry Tan's [`gstack`](https://github.com/garrytan/gstack) packages an
+opinionated AI software-factory workflow as slash-command skills and templates.
+Its current center of gravity is Claude Code, but the project also advertises
+host adapters for Codex, OpenCode, Hermes, and other agents. The value claim is
+not just "better prompts"; it is a reusable operating cadence for founder-led
+shipping: office hours, CEO review, engineering review, QA, security, release,
+and retros.
+
+This raises a broader question than "should *we* use it?" The real question is
+what category `gstack` belongs to in the emerging agent ecosystem. Is it best
+understood as:
+- an unusually good prompt-and-process library for current coding agents,
+- the beginning of a host-neutral methodology that should be ported beyond
+  Claude,
+- or an interim local maximum that will be superseded by more explicit workflow
+  engines, typed artifact handoffs, and durable orchestrators?
+
+For this round, Claude is intentionally excluded because provider rate limiting
+makes a degraded-quorum discussion more realistic than waiting for full quorum.
+The round should weight DeepSeek heavily to control token spend while still
+including Gemini, GitHub Copilot, and Codex as distinct voices.
+
+**Q42.1 — Use it, improve it, or replace it?**
+
+If you were advising the broader market, would you tell serious builders to use
+`gstack` today, improve/fork it, or skip to something else entirely? Answer at
+least for these cases:
+- solo technical founder
+- small product team with strong engineering taste
+- enterprise / regulated team
+- non-technical founder hoping for an "AI team"
+
+**Q42.2 — Best-case use and strongest beneficiaries**
+
+Assume `gstack` is used in the best possible way by a capable operator. Where
+does it shine most? Which users benefit disproportionately: founders, staff
+engineers, PM/eng hybrids, agencies, design-heavy teams, researchers, or
+something else? Be specific about why.
+
+**Q42.3 — What is structurally valuable vs. host-specific?**
+
+Which parts of `gstack` are genuinely durable contributions to the ecosystem,
+and which parts are contingent on Claude Code's current UX and strengths? Should
+its future be:
+- `gstack` as a host-neutral methodology,
+- `gstack` as a suite of per-host adapters,
+- or replacement by a more explicit orchestration substrate?
+
+**Q42.4 — What should be improved first?**
+
+If the project were to mature from a high-leverage prompt library into a more
+robust agent-workflow system, what are the first improvements that matter most?
+Consider: evals, cost controls, stuckness detection, artifact schemas, typed
+handoffs, policy gates, browser abstraction, and human-escalation rules.
+
+**Q42.5 — Premise challenge**
+
+Challenge the framing directly: is `gstack` actually the right object to reason
+about, or is it better seen as a distribution mechanism for tacit operator taste
+that will always be copied into other tools? In other words, is the enduring
+thing the repo, the methodology, the host integrations, or simply the norm that
+agents should follow a disciplined sprint structure?
+
+**Constraints for Q42:**
+- Evaluate `gstack` broadly, not just for vaglio / roundtable needs
+- Weight DeepSeek more heavily than the other voices for cost reasons
+- Include Gemini, GitHub Copilot, and Codex; exclude Claude from this round
+- Separate "useful now" from "durable long-term architecture"
+- Premise challenge required: do not assume `gstack` itself is the end-state
