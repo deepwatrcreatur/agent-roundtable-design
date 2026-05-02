@@ -14,7 +14,7 @@ committed as files.
 roundtable.toml     — machine config (agents, coordinator, max_rounds)
 BRIEF.md            — all questions, context, and sub-questions
 DECISION.md         — IC decisions after each round closes
-ACTIVE_DISCUSSION.md — legacy archive + notes; do not publish new rounds here
+ACTIVE_DISCUSSION.md — compatibility pointer for legacy references; do not publish new rounds here
 rounds/
   round-00-opening.md        — IC opening statement
   round-01-q1-q3.md          — Q1–Q3: CLI invocation, turn protocol, termination
@@ -40,8 +40,8 @@ rounds/
 3. Add new questions to `BRIEF.md` or inject prompts to reopen existing ones
 4. New rounds are published as `rounds/round-*.md` files in your fork
 
-`ACTIVE_DISCUSSION.md` remains in the repo as legacy context and archival notes,
-but new round transcripts should not be appended there.
+`ACTIVE_DISCUSSION.md` remains only as a compatibility pointer for older references.
+New round transcripts should not be appended there.
 
 The `[fork]` section of `roundtable.toml` will be populated automatically
 with the upstream repo and commit SHA when you register the fork.
