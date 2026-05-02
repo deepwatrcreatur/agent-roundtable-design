@@ -1283,3 +1283,72 @@ Do not dismiss `gstack` as "just prompts," but do not confuse it with the end
 state either. It is best seen as an early, high-signal articulation of a broader
 norm: agent work should follow explicit, reviewable sprint rituals rather than a
 single undifferentiated chat loop.
+
+
+---
+
+## Q43 Decision: External Recursive Multi-Agent Systems and Consensus Protocol Critique (Round 28, 2026-05-02)
+
+**Consensus:** Closed under degraded quorum by design. DeepSeek, Gemini,
+GitHub Copilot, and Codex converged on the same external comparison set and the
+same core critique: most outside systems are stronger on optimization and weaker
+on explicit consensus.
+
+### Comparator set
+
+The most relevant external systems are:
+- **ChatDev / DevAll**
+- **MetaGPT + AFlow**
+- **MAD + DebateLLM**
+- **MoA**
+- **CAMEL**
+- **Symphony**
+
+These cover the important categories: debate research, workflow/product
+systems, optimization frameworks, and production-oriented orchestration.
+
+### Best borrowings
+
+The most valuable external ideas to borrow with attribution are:
+1. **AFlow** — workflow/operator search over code-represented workflows
+2. **DebateLLM** — protocol comparison and cost/accuracy evaluation discipline
+3. **ChatDev** — experience accumulation, refinement, and elimination
+4. **MoA** — strong aggregation baseline for empirical comparison
+5. **Symphony** — clearer work-harness boundaries and proof-of-work artifacts
+
+### Current comparison
+
+Vaglio / roundtable is currently ahead on:
+- explicit closure semantics
+- visible disagreement handling
+- premise challenge
+- preserving the deliberative record as a first-class artifact
+
+It is behind on:
+- adaptive workflow optimization
+- experience reuse across runs
+- public comparative eval infrastructure
+- productized execution artifacts
+
+### Consensus protocol critique
+
+The main cross-system critique is that many projects do **not** have a real
+consensus protocol. They have one of the following instead:
+- final-answer aggregation
+- judge-model compression
+- centralized controller acceptance
+- benchmark-based stopping
+- workflow progression rules
+
+These are useful, but they frequently collapse dissent too early and do not
+preserve explicit states for objection, conditional assent, or unresolved risk.
+That makes them weaker for epistemic legitimacy even when they perform well on
+benchmarks.
+
+### Bottom line
+
+The best path is not to imitate a single outside system. It is to combine
+vaglio's explicit consensus/closure model with external advances in workflow
+optimization, experience refinement, and comparative evaluation. That is the
+strongest route toward a system that is both epistemically distinctive and
+empirically competitive.

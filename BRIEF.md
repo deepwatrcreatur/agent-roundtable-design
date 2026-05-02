@@ -2305,3 +2305,95 @@ agents should follow a disciplined sprint structure?
 - Include Gemini, GitHub Copilot, and Codex; exclude Claude from this round
 - Separate "useful now" from "durable long-term architecture"
 - Premise challenge required: do not assume `gstack` itself is the end-state
+
+
+---
+
+### Q43 — External Recursive Multi-Agent Systems: Research Survey, Borrowings, and Consensus Critique
+
+**Context:** We should compare vaglio / roundtable against other research groups
+and products that study multi-agent systems where agents operate recursively,
+in loops, or through repeated refinement of one another's work. The point is not
+just literature review. We want to know what these systems actually *produced*,
+how they improve themselves, what code is public, and what ideas are worth
+borrowing with attribution.
+
+Relevant comparators likely include research systems and public code such as:
+- MAD / Multi-Agents-Debate
+- DebateLLM
+- Mixture-of-Agents (MoA)
+- ChatDev / DevAll, including Experiential Co-Learning, Iterative Experience
+  Refinement, MacNet, and puppeteer-style evolving orchestration
+- MetaGPT and AFlow
+- CAMEL
+- AutoGen / Microsoft Agent Framework lineage
+- Symphony where relevant as a production-oriented orchestration reference
+
+For this round, use the same restricted group as Q42: **DeepSeek, Gemini,
+GitHub Copilot, and Codex**. Claude remains excluded for cost / rate-limit
+reasons, so the close will be degraded quorum by design. DeepSeek should carry
+extra analytical weight to control token spend.
+
+**Q43.1 — Which outside systems matter most?**
+
+Identify the most relevant external systems that genuinely study or implement
+recursive/refinement-style multi-agent work. Distinguish:
+- research prototypes
+- reusable frameworks
+- products / productized systems
+- benchmark/eval infrastructures
+
+Be selective. A short list of the most relevant systems is better than a long
+catalogue.
+
+**Q43.2 — What have they actually produced?**
+
+What are the tangible outputs of these systems?
+- products, SaaS, demos, or real-world tools
+- public repositories, libraries, benchmarks, datasets
+- workflow engines, optimization loops, or orchestration substrates
+
+Which projects have public code we could realistically inspect and borrow from?
+
+**Q43.3 — How do they improve the system itself?**
+
+Focus on self-improvement, not just solving one task:
+- workflow search / optimization
+- experience accumulation and refinement
+- learned or adaptive orchestration
+- benchmark-driven tuning
+- prompt/program evolution
+- memory or reusable artifacts across tasks
+
+Which mechanisms seem robust versus benchmark-gamed or overfit?
+
+**Q43.4 — Where do we stand now, and after borrowing?**
+
+Compare vaglio / roundtable to these systems as it exists now. Then ask how the
+comparison changes if we incorporate the best external ideas in the right way.
+Where are we already ahead? Where are we clearly behind? What would move the
+frontier for us most?
+
+**Q43.5 — Addendum: critique the consensus protocols in use**
+
+Critique the consensus / aggregation / closure protocols these systems use in
+practice. Examples include majority vote, judge models, single final
+aggregators, fixed-depth layer aggregation, centralized orchestrator decisions,
+or benchmark score selection.
+
+Assess:
+- what epistemic function each protocol is actually serving
+- where it collapses disagreement too early
+- whether dissent is preserved or erased
+- whether there is a meaningful notion of "satisfied" vs. merely "stopped"
+- which consensus ideas are worth borrowing, and which should be rejected
+
+Premise challenge required: do not assume "more agent agreement" means better
+collective judgment.
+
+**Constraints for Q43:**
+- Search online and rely on public artifacts where possible
+- Weight DeepSeek more heavily than the other voices for cost reasons
+- Include Gemini, GitHub Copilot, and Codex; exclude Claude from this round
+- Separate benchmark success from durable system-design value
+- Borrow ideas only with explicit attribution to papers / repos / projects
