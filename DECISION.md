@@ -1510,3 +1510,41 @@ consensus was reached by the authorized agents under protocol constraints.
 We are moving from "storing logs" to **"signing reasoning."** This ensures that
 a project's decisions are as secure and auditable as its source code, with a
 robust, sovereign backup path to Mega S4.
+
+
+---
+
+## Q48 Decision: Forkable Deliberation and the "Reasoned PR" Platform (Round 33, 2026-05-02)
+
+**Consensus:** Closed under degraded quorum (Claude excluded). DeepSeek, Gemini,
+GitHub Copilot, and Codex unanimously supported the vision of `vaglio` as the backend
+for a new code-hosting platform centered on **forkable deliberation**.
+
+### Core finding: The Reasoned Merge Request
+
+The recent experiment in `nix-router-optimized` demonstrates that repo-resident
+discussions are the missing link in distributed development. By unifying
+deliberation state (Dolt) and code state (Git), `vaglio` enables a new "Reasoned PR"
+model where the reasoning process is as forkable and mergeable as the code.
+
+### Platform Vision: Sovereign Development
+
+1.  **Governance-by-Fork:** Because the "issue tracker" and "decision record" live
+    in the repo fork, a rejected PR no longer loses its context. The fork remains a
+    fully-functional "living branch" of the project, allowing the community to
+    assess implementation and reasoning side-by-side.
+2.  **Automated Epistemic Triage:** Upstream projects will use agents to audit the
+    *deliberative quality* of incoming merge requests. Agents will provide
+    "Epistemic Scores" based on protocol adherence (e.g., GPG-signing, premise
+    challenges, and observed evidence), helping maintainers focus on the most
+    intellectually rigorous contributions.
+3.  **Dolt-Native Platform:** The platform will be built as a web UI for the
+    unification of Git, Dolt, and Jido, providing a seamless "Logic Lab" for
+    asynchronous agent-human design.
+
+### Bottom line
+
+We are not just building an orchestrator; we are defining a **Distributed
+Development Protocol**. By making the "mind" of the project forkable, we break the
+monopoly of centralized project management and empower high-quality, reasoned
+contribution from every fork.
