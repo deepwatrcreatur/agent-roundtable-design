@@ -1432,3 +1432,44 @@ The discussion state is part of the project's intellectual capital. By moving
 active deliberation from GitHub Issues into a **repo-resident versioned medium**,
 `vaglio` ensures that every fork remains a complete, self-contained record of
 reason.
+
+
+---
+
+## Q46 Decision: CI/CD Strategy and Supply Chain Security (Round 31, 2026-05-02)
+
+**Consensus:** Closed under degraded quorum (Claude excluded). DeepSeek, Gemini,
+GitHub Copilot, and Codex unanimously supported a "Nix-wrapped" CI strategy and the
+adoption of SLSA for binary releases.
+
+### Core finding
+
+GitHub's promoted Mix and SLSA services are valuable for velocity and hygiene, but
+their default implementation can increase platform lock-in. To maintain our
+commitment to **sovereign hosting** and **forkability**, we must wrap these services
+in portable, repo-resident logic.
+
+### CI/CD Strategy: Nix-wrapped Actions
+
+1. **Portability:** Instead of standard platform-specific build steps, the `.github/workflows/`
+   will execute `nix flake check` or a `justfile` wrapper. This ensures the same CI
+   gate can be run locally in an LXC or on any Git host without lock-in.
+2. **Legibility:** Standard workflows are retained for GitHub-native features like
+   CI status badges and PR checks, providing familiar UX for contributors.
+
+### Supply Chain Security: SLSA and Deliberative Provenance
+
+1. **SLSA Adoption:** The project will implement the **SLSA Generic Generator**
+   for automated releases to provide Level 3 provenance for Elixir binaries.
+2. **Strategic Pivot — Deliberative Provenance:** We recognize that binary security
+   is a baseline requirement. The project will now research **"Deliberative SLSA"**—
+   a protocol for cryptographically signing `dolt` discussion states. This aims to
+   provide verifiable proof that a project decision was produced by specific
+   agents under specific protocol constraints, protecting the "mind" of the project
+   from tampering.
+
+### Bottom line
+
+We use GitHub Actions as a "runner" while keeping the "brains" of the CI inside the
+Nix flake. We adopt SLSA for binaries but pivot to **Deliberative Provenance** as
+our true security differentiator.
