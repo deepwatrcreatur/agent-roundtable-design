@@ -1473,3 +1473,40 @@ in portable, repo-resident logic.
 We use GitHub Actions as a "runner" while keeping the "brains" of the CI inside the
 Nix flake. We adopt SLSA for binaries but pivot to **Deliberative Provenance** as
 our true security differentiator.
+
+
+---
+
+## Q47 Decision: Deliberative Provenance and S3-Compatible Backup Strategy (Round 32, 2026-05-02)
+
+**Consensus:** Closed under degraded quorum (Claude excluded). DeepSeek, Gemini,
+GitHub Copilot, and Codex unanimously supported the implementation of GPG-signed
+deliberation records and a multi-layered S3 backup strategy using Mega S4.
+
+### Core finding: Deliberative Provenance
+
+Standard binary supply-chain security is insufficient for a design orchestrator.
+The project will move to **cryptographically sign the record of reason**.
+By using GPG-signed Dolt commits for every agent turn, `vaglio` creates a
+tamper-evident audit trail of the entire deliberative process. The IC will
+eventually verify these signatures before closing any question, ensuring that the
+consensus was reached by the authorized agents under protocol constraints.
+
+### Backup Strategy: Sovereignty and Redundancy
+
+1. **Object Store:** The project will leverage the owner's **Mega S4** subscription
+   as its primary S3-compatible object store.
+2. **Dolt S3 Remotes:** Discussion state will be backed up via `dolt push` directly
+   to an S3-compatible remote on Mega.
+3. **Hybrid Backup:**
+   - **Elixir Abstraction:** The `roundtable` app will use `ex_aws_s3` to back up
+     telemetry, transcripts, and archives, surfacing status to the dashboard.
+   - **Infrastructure Sync:** A systemd timer in the `vaglio` LXC will use `rclone`
+     to mirror the entire state directory (Git + Dolt) to Mega S4 nightly, providing
+     full disaster recovery capability.
+
+### Bottom line
+
+We are moving from "storing logs" to **"signing reasoning."** This ensures that
+a project's decisions are as secure and auditable as its source code, with a
+robust, sovereign backup path to Mega S4.
