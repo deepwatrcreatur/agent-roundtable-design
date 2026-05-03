@@ -1548,3 +1548,42 @@ We are not just building an orchestrator; we are defining a **Distributed
 Development Protocol**. By making the "mind" of the project forkable, we break the
 monopoly of centralized project management and empower high-quality, reasoned
 contribution from every fork.
+
+
+---
+
+## Q49 Decision: JJ (Jujutsu) as the Kernel for Sovereign Governance (Round 34, 2026-05-02)
+
+**Consensus:** Unanimous support for moving beyond Git-only semantics to adopt a
+**jj-inspired** version control model as the technical foundation for the
+platform.
+
+### Core finding: Non-Blocking Evolution
+
+Jujutsu (jj) provides the technical primitives that perfectly mirror our
+deliberative protocol. While Git treats conflicts as errors, `jj` treats them as
+**first-class versioned objects**. This allows for a "Fork with Objections" to be a
+valid, shareable state, enabling the community to converge on a resolution
+through reasoned implementation.
+
+### Strategic Differentiators: Change-Based Deliberation
+
+1.  **Intent vs. Snapshot:** By using **Change IDs** instead of Commit hashes,
+    the platform tracks the *evolution* of a design decision across rebases and
+    refinements. This ensures that the deliberative context remains stable even
+    as the underlying code is rewritten.
+2.  **Community Convergence:** The platform will visualize the **Evolution Graph**
+    of a Change ID. If ten forks are working on the same feature, the community
+    can see which "evolution" is gaining the most consensus, facilitating
+    democratic convergence on the best branch without waiting for upstream merge.
+3.  **Advanced Triage via Revsets:** Maintainers will use agent-driven **Revset
+    queries** to filter incoming contributions. Instead of checking branch
+    names, maintainers can query for "changes that have consensus, are signed by
+    trusted auditors, and have no pending premise challenges."
+
+### Bottom line
+
+We are designing a **"JJ-Native Forge."** By adopting a version control system
+that understands logical changes and first-class conflicts, we create a
+platform where deliberation is a non-blocking, democratic evolution of intent
+rather than a sequence of static snapshots.
