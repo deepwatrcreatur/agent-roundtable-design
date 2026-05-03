@@ -1587,3 +1587,37 @@ We are designing a **"JJ-Native Forge."** By adopting a version control system
 that understands logical changes and first-class conflicts, we create a
 platform where deliberation is a non-blocking, democratic evolution of intent
 rather than a sequence of static snapshots.
+
+
+---
+
+## Q50 Decision: JJ (Jujutsu) and Token Efficiency (Round 35, 2026-05-02)
+
+**Consensus:** Unanimous agreement that the `jj` version control model is a
+fundamental enabler of token efficiency and cost-competitiveness.
+
+### Core finding: Evolution over History
+
+The project will pivot from "History-based" prompting to **"Evolution-based"**
+prompting. By leveraging `jj`'s Change IDs and logical deltas, we can provide
+agents with the specific refinement of a decision rather than a thousand-token
+transcript of previous turns.
+
+### Efficiency Mechanisms: Precision and Pruning
+
+1.  **Revset Context Retrieval:** The orchestrator will use `jj`'s **Revsets** to
+    perform surgical context pruning. Instead of agents "over-reading" the entire
+    design repo, the orchestrator will fetch only the logical fragments
+    intersecting with the current intent, reducing context overhead by an
+    estimated 50-70%.
+2.  **Metadata Offloading:** Protocol markers (`[satisfied]`, `[observed]`) will
+    be moved into the **JJ Change Metadata** layer. This removes the "token tax"
+    of re-stating and re-parsing these markers within the agent's prose.
+3.  **Background Convergence:** By using `jj`'s automatic rebasing, agents skip
+    the token-heavy process of manual synchronization and re-reading of upstream logs.
+
+### Bottom line
+
+`jj` is our most powerful token-optimization tool. By shifting to **intent-based
+querying** and **evolution-based prompting**, we can achieve the epistemic depth of
+a full roundtable at a fraction of the token cost of Git-based systems.
