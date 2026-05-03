@@ -48,12 +48,12 @@ invoked as CLI subprocesses; the orchestrator owns all GitHub side effects.
 └─────────────────────────────────────────────────────┘
 
 Shared state
-├ GitHub Issues   — active per-question discussion
-│  ├ Comments     — signed agent positions
-│  ├ Labels       — satisfied / needs-more-evidence / satisfied-conditional
-│  └ Open/closed  — question lifecycle state
+├ Dolt / Repo files — active per-question discussion
+│  ├ Comments     — signed agent positions in versioned state
+│  ├ Constraints  — schema-enforced satisfaction markers
+│  └ Branches/Tags — question lifecycle state
 └ Git repo        — BRIEF.md, DECISION.md, ATTRIBUTION.md, transcripts
-   └ ACTIVE_DISCUSSION.md  — index: Q# → issue number, orchestration rules
+   └ ACTIVE_DISCUSSION.md  — index: Q# → issue pointer, orchestration rules
 ```
 
 ---
@@ -80,20 +80,17 @@ Use `{:jido, "~> 2.0"}` as the runtime foundation. Do not roll a custom
 via `RunCliAgent`, same as participant invocations. `jido_ai` becomes relevant
 if an Elixir-native selector, summarizer, or fallback judge is needed later.
 
-### Shared State — Hybrid
+### Shared State — Repo-Resident Hybrid (Pivot)
 
 | Content | Medium | Rationale |
 |---|---|---|
-| Active per-question turns | GitHub Issues | Atomic writes, no merge conflicts, parallel-agent safe |
-| Question satisfaction state | Issue labels | Machine-readable without prose parsing |
-| Question lifecycle | Issue open/closed | Natural termination signal |
+| Active per-question turns | **Dolt / Repo-resident files** | Forkable, versioned, decentralized; no "epistemic silo" |
+| Question satisfaction state | **SQL Constraints / Structured Files** | Schema-enforced protocol markers; machine-readable |
+| Question lifecycle | **Dolt Branches / Commit tags** | Git-native lifecycle tracking |
 | BRIEF, DECISION, ATTRIBUTION | Git-tracked files | Durable, reviewable, version-controlled |
-| Session index (Q# → issue#) | `ACTIVE_DISCUSSION.md` in git | Stable pointer; not written during live rounds |
-| Transcripts/archives | Git-tracked files | Persist after issues close |
+| Transcripts/archives | **Git-tracked files (Sync)** | Persist within the repo fork; synced from active state |
 
-Do not write agent positions to `ACTIVE_DISCUSSION.md` during live rounds.
-That file is updated by the orchestrator only when opening or closing a
-discussion, not turn-by-turn.
+**Pivot Rationale:** GitHub Issues are non-forkable. A fork of a `vaglio` repo should be a "branch of thought," including the full deliberative history. Moving state into the repository (using Dolt for SQL-driven robustness or structured files for maximum portability) ensures the deliberation follows the code.
 
 ### Turn Protocol — Round-Robin + IC Close
 
@@ -1399,3 +1396,39 @@ The project will prioritize the quality of the **deliberative record** over raw
 throughput. By implementing **diff-based refinement** and **context compression**,
 vaglio can achieve the epistemic depth of a multi-agent system at a cost
 competitive with single-agent analysis.
+
+
+---
+
+## Q45 Decision: The Forkable State Problem: Dolt, Linear, and Repo-Resident Issues (Round 30, 2026-05-02)
+
+**Consensus:** Closed under degraded quorum. DeepSeek, Gemini, GitHub Copilot, and
+Codex unanimously supported migrating to a repo-resident state model to solve the
+"forkable deliberation" problem.
+
+### Core finding
+
+Centralized trackers (GitHub Issues, Linear) create non-forkable "epistemic silos."
+While Symphony (OpenAI/Microsoft) may use Linear for centralized production velocity,
+`vaglio`'s goal of distributed deliberation requires that the active discussion
+state be as portable and forkable as the source code itself.
+
+### Strategic pivot: Repo-Resident State
+
+1. **Dolt as the "Git-Database":** Recommended for its ability to fork and merge
+   social state (comments, labels) alongside code. It enables SQL-based protocol
+   enforcement (e.g., CHECK constraints on satisfaction markers) and "time-travel"
+   queries (`AS OF`) for auditing reasoning history.
+2. **Rejection of Linear:** Linear's SaaS-only, centralized model is fundamentally
+   at odds with the project's "distributed minds" and "forkable context" goals.
+3. **Hybrid Path:** To maintain a low barrier to entry, the system will prioritize
+   a **"Dolt-as-Truth, Git-as-View"** model. The orchestrator runs against a
+   versioned, repo-resident medium (Dolt or structured files) but can export/sync
+   to markdown for human visibility on platforms like GitHub.
+
+### Bottom line
+
+The discussion state is part of the project's intellectual capital. By moving
+active deliberation from GitHub Issues into a **repo-resident versioned medium**,
+`vaglio` ensures that every fork remains a complete, self-contained record of
+reason.
