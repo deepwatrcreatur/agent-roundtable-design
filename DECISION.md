@@ -1621,3 +1621,44 @@ transcript of previous turns.
 `jj` is our most powerful token-optimization tool. By shifting to **intent-based
 querying** and **evolution-based prompting**, we can achieve the epistemic depth of
 a full roundtable at a fraction of the token cost of Git-based systems.
+
+
+---
+
+## Q51 Decision: Unifying Dolt and JJ: No Fork Strategy (Round 36, 2026-05-02)
+
+**Consensus:** The roundtable unanimously rejects the strategy of forking Dolt.
+Instead, we will unify `jj` and `Dolt` through an **Orchestration Layer** to
+achieve the "JJ-Native Forge" vision while maintaining tool compatibility.
+
+### Core finding: Semantic Unification over Binary Modification
+
+Forking Dolt (Go) to implement `jj` (Rust) semantics would be an inefficient use
+of development resources and introduce unnecessary maintenance debt. We can
+achieve first-class logical conflicts and evolution-based state management by
+unifying the tools' **semantics** in our orchestrator and UI layers rather than
+modifying their core binaries.
+
+### Strategic Integration Path:
+
+1.  **Unified Conflict Management:** The platform will treat `dolt_conflicts` (SQL)
+    and `jj` conflicts (Files) as a single logical deliberative object. This
+    unification will live in the dashboard UI, showing users and agents a
+    complete view of "reasoning conflicts" across the entire stack.
+2.  **Orchestration Shim:** We will build a **Jido-powered logic shim** in Elixir.
+    This shim will translate `jj` Change IDs into Dolt Branch/Tag metadata,
+    ensuring that code evolution and deliberation memory remain logically linked
+    without requiring a database fork.
+3.  **Future Backend Research:** We will prioritize researching a native **Rust-based
+    jj-backend** for Dolt. This provides a surgical, high-performance integration
+    path that leverages `jj`'s existing abstracted storage architecture.
+4.  **GitHub Hosting:** We will leverage `jj`'s Git-colocation and `dolt`'s Git
+    sync capabilities to host both code evolution and deliberation state in
+    standard GitHub repositories, avoiding platform lock-in while using familiar
+    infrastructure.
+
+### Bottom line
+
+No Dolt fork. We unify the "Mind" (jj) and the "Memory" (Dolt) through the
+**Orchestrator and UI layers**, creating a high-fidelity development environment
+that remains compatible with the standard Git/SQL ecosystem.
