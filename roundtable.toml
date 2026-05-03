@@ -2,9 +2,9 @@ schema_version = 1
 
 [discussion]
 title = "Agent Roundtable Orchestrator Design"
-agents = ["codex", "gemini", "claude_ic"]
+agents = ["codex", "gemini", "deepseek", "copilot"]
 max_rounds = 5
-coordinator = "claude_ic"
+coordinator = "gemini"
 issues_enabled = false
 embedded = false
 service_repo = ""

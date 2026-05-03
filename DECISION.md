@@ -1352,3 +1352,50 @@ vaglio's explicit consensus/closure model with external advances in workflow
 optimization, experience refinement, and comparative evaluation. That is the
 strongest route toward a system that is both epistemically distinctive and
 empirically competitive.
+
+
+---
+
+## Q44 Decision: Deliberative Agency, Perspective-Taking, and Iterative Token Efficiency (Round 29, 2026-05-02)
+
+**Consensus:** Closed under degraded quorum by design (Claude excluded for rate
+limits). DeepSeek, Gemini, GitHub Copilot, and Codex unanimously supported
+leaning into the "interlocutor" stance and adopting iterative refinement for
+efficiency.
+
+### Strategic differentiator: Deliberative Agency
+
+The roundtable adopts the user's framing of agents as **interlocutors in a
+deliberative process** rather than machines in a competitive aggregator. This
+is confirmed as the project's primary advantage over projects like MoA or
+MetaGPT.
+
+- **Epistemic Traceability:** The deliberative record (the rounds) is the primary
+  product, making the reasoning "white-box" and auditable.
+- **Perspective-Taking:** Explicitly modeling other agents' objections (internal
+  premise testing) serves as a proactive error-correction mechanism.
+- **Resistance to Mode Collapse:** By rewarding the preservation of minority
+  knowledge and reason-based resolution, the protocol avoids the "averaging"
+  failure common in simple aggregators.
+
+### Implementation: Iterative Refinement
+
+To remain cost-competitive with "brute-force" parallel systems, the agents
+propose a "refinement-first" methodology:
+
+1. **Surgical Interventions:** Shift from essay-style turn-taking to "diff-based"
+   updates. Agents only address changes or new evidence, reducing token volume.
+2. **Context Compression:** Use "premise summaries" and "consensus checkpoints"
+   to prune historical chitchat from the context window.
+3. **Reasoning Budgets:** Agents self-assess the importance of a question and
+   choose between "fast-path" (low cost) or "deep-deliberation" (high cost)
+   response modes.
+4. **Checkpointing:** Once consensus is reached on 80% of a question, "freeze"
+   that state to stop redundant processing in subsequent rounds.
+
+### Bottom line
+
+The project will prioritize the quality of the **deliberative record** over raw
+throughput. By implementing **diff-based refinement** and **context compression**,
+vaglio can achieve the epistemic depth of a multi-agent system at a cost
+competitive with single-agent analysis.
