@@ -1662,3 +1662,40 @@ modifying their core binaries.
 No Dolt fork. We unify the "Mind" (jj) and the "Memory" (Dolt) through the
 **Orchestrator and UI layers**, creating a high-fidelity development environment
 that remains compatible with the standard Git/SQL ecosystem.
+
+
+---
+
+## Q52 Decision: Establishing a Repo-Resident JJ Guide for Agents (Round 37, 2026-05-02)
+
+**Consensus:** Unanimous agreement that agents require a repo-resident guide to
+Jujutsu (jj) to prevent syntax errors and misfires caused by the rapidly evolving
+VCS landscape.
+
+### Core finding: The LLM/JJ Gap
+
+Underlying LLMs often have sparse or stale knowledge of current Jujutsu syntax
+(0.40.0+), leading to errors such as using `jj branch` (deprecated) instead of
+`jj bookmark`. To ensure system reliability and token efficiency, the project
+must provide a canonical versioned source of truth for VCS operations.
+
+### Strategic Integration Path:
+
+1.  **Creation of `docs/JJ_GUIDE.md`:** A structured guide mapping deliberative
+    intents (turn closure, forking, consensus labeling) to specific `jj`
+    command primitives.
+2.  **Prompt Grounding:** The orchestrator will inject a version-specific VCS
+    summary into all agent system prompts, explicitly mentioning syntax changes
+    like `bookmark` and `describe`.
+3.  **Headless-First Protocol:** The guide will enforce the use of non-interactive
+    flags (e.g., `--color never`, and avoiding pager triggers) to ensure agents
+    do not hang in automated environments.
+4.  **Revset Cheat Sheet:** Inclusion of optimized Revset queries for common
+    deliberative retrieval tasks (e.g., finding logical conflicts or un-signed
+    turns).
+
+### Bottom line
+
+We are closing the knowledge gap between agents and their version control tools.
+By providing a versioned **"JJ for Agents"** guide, we ensure that every fork
+remains a stable, predictable environment for autonomous deliberation.
